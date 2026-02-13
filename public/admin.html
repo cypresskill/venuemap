@@ -109,7 +109,13 @@
   <div class="mpane" id="mp-girls">
     <p style="font-size:.78rem;color:var(--tx2);margin-bottom:12px">Girls verwalten und Wochenplan festlegen.</p>
     <div id="girlsList"></div>
-    <button class="btn" style="margin-top:12px" onclick="addGirl()">+ Girl hinzufügen</button>
+    <div class="girl-card" style="border-color:var(--bdr2)">
+      <div class="fg-sep" style="margin-top:0;border:none;padding:0">Neues Girl hinzufügen</div>
+      <div class="fg"><label>Name *</label><input type="text" id="newGirlName" placeholder="z.B. Mia"></div>
+      <div class="fg"><label>Beschreibung</label><input type="text" id="newGirlDesc" placeholder="Kurze Beschreibung (optional)"></div>
+      <button class="btn" onclick="addGirl()">Girl hinzufügen</button>
+      <div class="err" id="girlErr"></div>
+    </div>
   </div>
   <!-- SERVICES -->
   <div class="mpane" id="mp-services">
@@ -286,10 +292,13 @@ async function loadGirls(studioId){
   }catch(e){box.innerHTML='<div style="color:var(--red);font-size:.76rem">'+e.message+'</div>';}
 }
 async function addGirl(){
-  const name=prompt('Name des Girls:');if(!name)return;
-  const desc=prompt('Kurzbeschreibung (optional):');
-  try{await api('girls',{method:'POST',body:{studio_id:currentEditId,name:name,beschreibung:desc||null,is_active:true,is_approved:true,montag:false,dienstag:false,mittwoch:false,donnerstag:false,freitag:false,samstag:false,sonntag:false}});loadGirls(currentEditId);}
-  catch(e){alert(e.message);}
+  const name=document.getElementById('newGirlName').value.trim();
+  const desc=document.getElementById('newGirlDesc').value.trim();
+  const errEl=document.getElementById('girlErr');errEl.style.display='none';
+  if(!name){errEl.textContent='Bitte Name eingeben.';errEl.style.display='block';return;}
+  try{await api('girls',{method:'POST',body:{studio_id:currentEditId,name:name,beschreibung:desc||null,is_active:true,is_approved:true,montag:false,dienstag:false,mittwoch:false,donnerstag:false,freitag:false,samstag:false,sonntag:false}});
+  document.getElementById('newGirlName').value='';document.getElementById('newGirlDesc').value='';loadGirls(currentEditId);}
+  catch(e){errEl.textContent=e.message;errEl.style.display='block';}
 }
 async function toggleGirlDay(girlId,day,el){
   const isOn=el.classList.contains('on');
