@@ -242,9 +242,36 @@ async function openEdit(id){
 function closeEdit(){document.getElementById('editModal').classList.remove('open');currentEditId=null;}
 
 async function saveEdit(){
-  const id=document.getElementById('eId').value,errEl=document.getElementById('eErr'),sucEl=document.getElementById('eSuccess');errEl.style.display='none';
-  try{await api('studios?id=eq.'+id,{method:'PATCH',body:{name:document.getElementById('eName').value,kategorie_id:document.getElementById('eKat').value||null,status:document.getElementById('eStatus').value,adresse:document.getElementById('eAddr').value||null,adresse_sichtbar:document.getElementById('eAddrVis').checked,telefon:document.getElementById('eTel').value||null,whatsapp:document.getElementById('eWA').value||null,telegram:document.getElementById('eTG').value||null,website:document.getElementById('eWeb').value||null,beschreibung:document.getElementById('eDesc').value||null,featured:document.getElementById('eFeat').value==='true',is_verified:document.getElementById('eVer').value==='true',is_pro:document.getElementById('ePro').value==='true',is_claimed:document.getElementById('eClaimed').value==='true'}});
-  sucEl.style.display='block';setTimeout(()=>{sucEl.style.display='none';},2000);await loadData();}
+  const id=document.getElementById('eId').value,errEl=document.getElementById('eErr'),sucEl=document.getElementById('eSuccess');errEl.style.display='none';sucEl.style.display='none';
+  var body={
+    name:document.getElementById('eName').value,
+    kategorie_id:document.getElementById('eKat').value||null,
+    status:document.getElementById('eStatus').value,
+    adresse:document.getElementById('eAddr').value||null,
+    telefon:document.getElementById('eTel').value||null,
+    whatsapp:document.getElementById('eWA').value||null,
+    telegram:document.getElementById('eTG').value||null,
+    website:document.getElementById('eWeb').value||null,
+    beschreibung:document.getElementById('eDesc').value||null,
+    featured:document.getElementById('eFeat').value==='true',
+    is_verified:document.getElementById('eVer').value==='true',
+    is_pro:document.getElementById('ePro').value==='true',
+    is_claimed:document.getElementById('eClaimed').value==='true'
+  };
+  try{body.adresse_sichtbar=document.getElementById('eAddrVis').checked;}catch(e){}
+  try{
+    await api('studios?id=eq.'+id,{method:'PATCH',body:body});
+    sucEl.style.display='block';setTimeout(()=>{sucEl.style.display='none';},2000);
+    await loadData();
+    // Re-read data into form so user sees the saved values
+    var s=allStudios.find(x=>x.id===id);
+    if(s){
+      document.getElementById('eFeat').value=s.featured?'true':'false';
+      document.getElementById('eVer').value=s.is_verified?'true':'false';
+      document.getElementById('ePro').value=s.is_pro?'true':'false';
+      document.getElementById('eClaimed').value=s.is_claimed?'true':'false';
+    }
+  }
   catch(e){errEl.textContent=e.message;errEl.style.display='block';}
 }
 
