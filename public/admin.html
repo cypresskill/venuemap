@@ -90,7 +90,7 @@
     <label style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--tx2);margin-bottom:14px;cursor:pointer"><input type="checkbox" id="eAddrVis" checked style="accent-color:var(--ac);width:16px;height:16px"> Adresse im Profil anzeigen</label>
     <div class="fg-row"><div class="fg"><label>Telefon</label><input type="text" id="eTel"></div><div class="fg"><label>WhatsApp</label><input type="text" id="eWA"></div></div>
     <div class="fg-row"><div class="fg"><label>Telegram</label><input type="text" id="eTG"></div><div class="fg"><label>Website</label><input type="text" id="eWeb"></div></div>
-    <div class="fg"><label>Beschreibung</label><textarea id="eDesc"></textarea></div>
+    <div class="fg"><label>Beschreibung <span id="eDescCount" style="float:right;font-weight:400;color:var(--tx3)">0/500</span></label><textarea id="eDesc" style="height:140px" maxlength="500" oninput="document.getElementById('eDescCount').textContent=this.value.length+'/500'"></textarea></div>
     <div class="fg-row"><div class="fg"><label>Featured</label><select id="eFeat"><option value="false">Nein</option><option value="true">Ja</option></select></div><div class="fg"><label>Verifiziert</label><select id="eVer"><option value="false">Nein</option><option value="true">Ja</option></select></div></div>
     <div class="fg-row"><div class="fg"><label>VenueMap Pro</label><select id="ePro"><option value="false">Nein</option><option value="true">Ja</option></select></div><div class="fg"><label>Claimed</label><select id="eClaimed"><option value="false">Nein</option><option value="true">Ja</option></select></div></div>
     <input type="hidden" id="eId">
@@ -112,7 +112,7 @@
     <div class="girl-card" style="border-color:var(--bdr2)">
       <div class="fg-sep" style="margin-top:0;border:none;padding:0">Neues Girl hinzufügen</div>
       <div class="fg"><label>Name *</label><input type="text" id="newGirlName" placeholder="z.B. Mia"></div>
-      <div class="fg"><label>Beschreibung</label><input type="text" id="newGirlDesc" placeholder="Kurze Beschreibung (optional)"></div>
+      <div class="fg"><label>Beschreibung <span id="newGirlDescCount" style="float:right;font-weight:400;color:var(--tx3)">0/150</span></label><textarea id="newGirlDesc" placeholder="Kurze Beschreibung (optional)" style="height:70px" maxlength="150" oninput="document.getElementById('newGirlDescCount').textContent=this.value.length+'/150'"></textarea></div>
       <button class="btn" onclick="addGirl()">Girl hinzufügen</button>
       <div class="err" id="girlErr"></div>
     </div>
