@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VenueMap Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09080D;--bg2:#0F0E16;--bg3:#161520;--sf:rgba(22,21,32,.85);--bdr:rgba(255,255,255,.06);--bdr2:rgba(255,255,255,.1);--tx:#F4F2F7;--tx2:#9B97A8;--tx3:#5E5A6E;--ac:#C8926A;--ac2:#DDAA82;--grn:#6BAD8E;--red:#C86A6A;--f:'Inter',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--f);background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;min-height:100vh}a{color:var(--ac);text-decoration:none}
+
+/* Login */
+#loginPage{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--sf);border:1px solid var(--bdr2);border-radius:20px;padding:44px 32px;max-width:380px;width:100%;backdrop-filter:blur(16px)}
+.login-box h1{font-size:1.2rem;font-weight:500;margin-bottom:4px}.login-box p{font-size:.8rem;color:var(--tx3);margin-bottom:24px}
+.fg{margin-bottom:14px}.fg label{display:block;font-size:.72rem;font-weight:500;color:var(--tx2);margin-bottom:4px}.fg input,.fg select,.fg textarea{width:100%;height:42px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.84rem;color:var(--tx);outline:none;transition:border-color .2s}.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--ac)}.fg input::placeholder,.fg textarea::placeholder{color:var(--tx3)}.fg textarea{height:80px;padding:10px 12px;resize:vertical}.fg select{appearance:none}.fg select option{background:#161520;color:#F4F2F7}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;height:46px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:.86rem;font-weight:600;cursor:pointer;transition:all .2s}.btn:hover{opacity:.9}
+.btn-sm{height:32px;padding:0 14px;font-size:.72rem;font-weight:600;border:none;border-radius:6px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
+.btn-approve{background:var(--grn);color:#fff}.btn-reject{background:var(--red);color:#fff}.btn-edit{background:rgba(255,255,255,.06);color:var(--tx2);border:1px solid var(--bdr)}.btn-edit:hover{border-color:var(--ac);color:var(--ac)}
+.err{color:var(--red);font-size:.76rem;margin-top:8px;display:none}
+
+/* App */
+#app{display:none}
+.top{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(9,8,13,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:50}
+.top h2{font-size:.92rem;font-weight:500;display:flex;align-items:center;gap:8px}.top h2 span{font-size:.62rem;color:var(--ac);background:var(--sf);padding:2px 8px;border-radius:4px;font-weight:600}
+.top-r{display:flex;align-items:center;gap:12px}.top-r span{font-size:.72rem;color:var(--tx3)}
+.logout{font-size:.72rem;color:var(--tx3);background:none;border:1px solid var(--bdr);border-radius:6px;padding:4px 12px;cursor:pointer;font-family:var(--f)}.logout:hover{border-color:var(--red);color:var(--red)}
+
+.tabs{position:fixed;top:52px;left:0;right:0;height:44px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:2px;padding:0 20px;z-index:49;overflow-x:auto}
+.tab{font-size:.76rem;color:var(--tx3);padding:6px 14px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .15s;font-weight:500;border:none;background:none;font-family:var(--f)}.tab:hover{color:var(--tx2)}.tab.active{color:var(--ac);background:rgba(200,146,106,.08)}
+.tab-badge{background:var(--red);color:#fff;font-size:.56rem;font-weight:700;padding:1px 5px;border-radius:8px;margin-left:4px}
+
+.content{padding:112px 20px 40px;max-width:1000px;margin:0 auto}
+.page{display:none}.page.active{display:block}
+.card{background:var(--sf);border:1px solid var(--bdr);border-radius:12px;padding:20px;margin-bottom:12px;backdrop-filter:blur(12px)}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.card-title{font-size:.94rem;font-weight:500;display:flex;align-items:center;gap:8px}
+.badge{font-size:.58rem;font-weight:600;padding:2px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:3px}
+.badge-pending{background:rgba(200,146,106,.12);color:var(--ac)}.badge-approved{background:rgba(107,173,142,.1);color:var(--grn)}.badge-rejected{background:rgba(200,106,106,.1);color:var(--red)}.badge-draft{background:rgba(255,255,255,.05);color:var(--tx3)}.badge-pro{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)}.badge-claimed{background:rgba(107,94,200,.1);color:#8B7EC8}
+.card-meta{font-size:.72rem;color:var(--tx3);display:flex;gap:12px;flex-wrap:wrap}.card-meta span{display:flex;align-items:center;gap:3px}
+.card-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.empty{text-align:center;padding:48px 20px;color:var(--tx3);font-size:.86rem}
+
+/* Quick add form */
+.qadd{background:var(--sf);border:1px solid var(--bdr);border-radius:14px;padding:24px;margin-bottom:24px}
+.qadd h3{font-size:.88rem;font-weight:500;margin-bottom:14px;color:var(--ac)}
+.qadd .btn{margin-top:8px}
+
+/* Stats */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:24px}
+.stat-card{background:var(--sf);border:1px solid var(--bdr);border-radius:10px;padding:16px;text-align:center}
+.stat-n{font-size:1.6rem;font-weight:600;color:var(--tx)}.stat-l{font-size:.64rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+/* Modal */
+.modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(9,8,13,.7);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}
+.modal-c{background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px}
+.modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.modal-h h3{font-size:1rem;font-weight:500}
+.modal-x{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;color:var(--tx3)}
+.success{color:var(--grn);font-size:.76rem;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+<div class="login-box">
+  <h1>VenueMap Admin</h1>
+  <p>Einloggen mit deinem Admin-Account</p>
+  <div class="fg"><label>E-Mail</label><input type="email" id="loginEmail" placeholder="admin@email.ch"></div>
+  <div class="fg"><label>Passwort</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+  <button class="btn" onclick="doLogin()">Einloggen</button>
+  <div class="err" id="loginErr"></div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<div class="top">
+  <h2>VenueMap <span>Admin</span></h2>
+  <div class="top-r"><span id="userEmail"></span><button class="logout" onclick="doLogout()">Logout</button></div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showPage('dashboard')">Dashboard</button>
+  <button class="tab" onclick="showPage('studios')">Studios</button>
+  <button class="tab" onclick="showPage('pending')">Prüfen <span class="tab-badge" id="pendingCount">0</span></button>
+  <button class="tab" onclick="showPage('claims')">Claims <span class="tab-badge" id="claimCount">0</span></button>
+  <button class="tab" onclick="showPage('add')">+ Schnell erfassen</button>
+</div>
+
+<div class="content">
+<!-- DASHBOARD -->
+<div class="page active" id="p-dashboard">
+  <div class="stat-row" id="stats"></div>
+  <h3 style="font-size:.86rem;font-weight:500;margin-bottom:12px;color:var(--tx2)">Letzte Aktivität</h3>
+  <div id="recentList"><div class="empty">Lade...</div></div>
+</div>
+
+<!-- ALL STUDIOS -->
+<div class="page" id="p-studios">
+  <div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">
+    <input type="text" id="studioSearch" placeholder="Studio suchen…" style="flex:1;min-width:200px;height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none" oninput="filterStudios()">
+    <select id="statusFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:120px" onchange="filterStudios()">
+      <option value="">Alle Status</option><option value="approved">Freigegeben</option><option value="pending">In Prüfung</option><option value="draft">Entwurf</option><option value="rejected">Abgelehnt</option>
+    </select>
+  </div>
+  <div id="studioList"><div class="empty">Lade...</div></div>
+</div>
+
+<!-- PENDING -->
+<div class="page" id="p-pending">
+  <div id="pendingList"><div class="empty">Lade...</div></div>
+</div>
+
+<!-- CLAIMS -->
+<div class="page" id="p-claims">
+  <div id="claimList"><div class="empty">Lade...</div></div>
+</div>
+
+<!-- QUICK ADD -->
+<div class="page" id="p-add">
+  <div class="qadd">
+    <h3>Studio schnell erfassen</h3>
+    <div class="fg"><label>Studioname *</label><input type="text" id="qName" placeholder="z.B. Studio Bellevue"></div>
+    <div class="fg-row">
+      <div class="fg"><label>Kategorie *</label><select id="qKat"></select></div>
+      <div class="fg"><label>Kanton *</label><select id="qKanton"></select></div>
+    </div>
+    <div class="fg"><label>Stadt *</label><input type="text" id="qStadt" placeholder="z.B. Altdorf, Zürich…"></div>
+    <div class="fg"><label>Adresse</label><input type="text" id="qAddr" placeholder="Strasse, Hausnummer (optional)"></div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--tx2);margin-bottom:14px;cursor:pointer"><input type="checkbox" id="qAddrVis" checked style="accent-color:var(--ac);width:16px;height:16px"> Adresse im Profil anzeigen</label>
+    <div class="fg-row">
+      <div class="fg"><label>Telefon</label><input type="text" id="qTel" placeholder="+41 …"></div>
+      <div class="fg"><label>WhatsApp</label><input type="text" id="qWA" placeholder="+41 …"></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Telegram</label><input type="text" id="qTG" placeholder="@username"></div>
+      <div class="fg"><label>Website</label><input type="text" id="qWeb" placeholder="https://…"></div>
+    </div>
+    <button class="btn" onclick="quickAdd()">Erfassen & direkt freigeben</button>
+    <div class="success" id="qSuccess">✓ Studio erfasst!</div>
+    <div class="err" id="qErr"></div>
+  </div>
+  <div class="qadd" style="opacity:.7">
+    <h3>Duplikat-Check</h3>
+    <p style="font-size:.78rem;color:var(--tx3);line-height:1.5">Wenn du oben einen Namen eintippst, wird automatisch geprüft ob ein Studio mit diesem Namen im gleichen Kanton schon existiert. Die Datenbank verhindert Duplikate.</p>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="editModal" onclick="if(event.target===this)closeEdit()">
+<div class="modal-c">
+  <div class="modal-h"><h3>Studio bearbeiten</h3><button class="modal-x" onclick="closeEdit()">✕</button></div>
+  <div class="fg"><label>Name</label><input type="text" id="eName"></div>
+  <div class="fg-row">
+    <div class="fg"><label>Kategorie</label><select id="eKat"></select></div>
+    <div class="fg"><label>Status</label><select id="eStatus"><option value="draft">Entwurf</option><option value="pending">In Prüfung</option><option value="approved">Freigegeben</option><option value="rejected">Abgelehnt</option></select></div>
+  </div>
+  <div class="fg"><label>Adresse</label><input type="text" id="eAddr"></div>
+  <label style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--tx2);margin-bottom:14px;cursor:pointer"><input type="checkbox" id="eAddrVis" checked style="accent-color:var(--ac);width:16px;height:16px"> Adresse im Profil anzeigen</label>
+  <div class="fg-row">
+    <div class="fg"><label>Telefon</label><input type="text" id="eTel"></div>
+    <div class="fg"><label>WhatsApp</label><input type="text" id="eWA"></div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>Telegram</label><input type="text" id="eTG"></div>
+    <div class="fg"><label>Website</label><input type="text" id="eWeb"></div>
+  </div>
+  <div class="fg"><label>Beschreibung</label><textarea id="eDesc"></textarea></div>
+  <div class="fg-row">
+    <div class="fg"><label>Featured</label><select id="eFeat"><option value="false">Nein</option><option value="true">Ja</option></select></div>
+    <div class="fg"><label>Verifiziert</label><select id="eVer"><option value="false">Nein</option><option value="true">Ja</option></select></div>
+  </div>
+  <div class="fg-row">
+    <div class="fg"><label>VenueMap Pro</label><select id="ePro"><option value="false">Nein</option><option value="true">Ja</option></select></div>
+    <div class="fg"><label>Claimed</label><select id="eClaimed"><option value="false">Nein</option><option value="true">Ja</option></select></div>
+  </div>
+  <input type="hidden" id="eId">
+  <button class="btn" onclick="saveEdit()">Speichern</button>
+  <div class="success" id="eSuccess">✓ Gespeichert!</div>
+  <div class="err" id="eErr"></div>
+</div>
+</div>
+
+<script>
+// ═══ CONFIG ═══
+const SUPABASE_URL = 'https://undrlwlxcsrayldbxepd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZHJsd2x4Y3NyYXlsZGJ4ZXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTkyMDMsImV4cCI6MjA4NjU3NTIwM30.7-U3lFqu5jyrg-CeQwQyJrUmZflC3PqmhytSfRk7KbI';
+
+let token = null;
+let allStudios = [];
+let kategorien = [];
+let kantone = [];
+let staedte = [];
+
+// ═══ API HELPER ═══
+async function api(path, opts = {}) {
+  const headers = {
+    'apikey': SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': opts.prefer || 'return=representation'
+  };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const r = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    method: opts.method || 'GET',
+    headers,
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    throw new Error(e.message || e.msg || r.statusText);
+  }
+  const text = await r.text();
+  return text ? JSON.parse(text) : null;
+}
+
+async function authApi(path, body) {
+  const r = await fetch(SUPABASE_URL + '/auth/v1/' + path, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+// ═══ LOGIN ═══
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginErr');
+  errEl.style.display = 'none';
+  try {
+    const data = await authApi('token?grant_type=password', { email, password: pass });
+    if (data.error) throw new Error(data.error_description || data.msg);
+    token = data.access_token;
+    localStorage.setItem('vm_token', token);
+    localStorage.setItem('vm_email', email);
+    showApp(email);
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+  }
+}
+
+function doLogout() {
+  token = null;
+  localStorage.removeItem('vm_token');
+  localStorage.removeItem('vm_email');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+}
+
+// ═══ INIT ═══
+async function showApp(email) {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('userEmail').textContent = email;
+  await loadData();
+  showPage('dashboard');
+}
+
+async function loadData() {
+  try {
+    [kategorien, kantone, staedte, allStudios] = await Promise.all([
+      api('kategorien?order=sort_order'),
+      api('kantone?order=name'),
+      api('staedte?order=sort_order'),
+      api('studios?select=*,kategorien(name),staedte(name),kantone(name)&order=created_at.desc')
+    ]);
+    populateSelects();
+    renderDashboard();
+    renderStudios();
+    renderPending();
+    loadClaims();
+  } catch (e) {
+    console.error('Load error:', e);
+  }
+}
+
+function populateSelects() {
+  // Quick add selects
+  const katSel = [document.getElementById('qKat'), document.getElementById('eKat')];
+  const kanSel = document.getElementById('qKanton');
+  katSel.forEach(s => {
+    s.innerHTML = '<option value="">Wählen…</option>' + kategorien.map(k => '<option value="'+k.id+'">'+k.name+'</option>').join('');
+  });
+  kanSel.innerHTML = '<option value="">Wählen…</option>' + kantone.map(k => '<option value="'+k.id+'">'+k.name+'</option>').join('');
+}
+
+// ═══ DASHBOARD ═══
+function renderDashboard() {
+  const total = allStudios.length;
+  const approved = allStudios.filter(s => s.status === 'approved').length;
+  const pending = allStudios.filter(s => s.status === 'pending').length;
+  const pro = allStudios.filter(s => s.is_pro).length;
+  const claimed = allStudios.filter(s => s.is_claimed).length;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="stat-n">${total}</div><div class="stat-l">Total</div></div>
+    <div class="stat-card"><div class="stat-n">${approved}</div><div class="stat-l">Freigegeben</div></div>
+    <div class="stat-card"><div class="stat-n">${pending}</div><div class="stat-l">Zu prüfen</div></div>
+    <div class="stat-card"><div class="stat-n">${pro}</div><div class="stat-l">Pro</div></div>
+    <div class="stat-card"><div class="stat-n">${claimed}</div><div class="stat-l">Claimed</div></div>
+  `;
+  document.getElementById('pendingCount').textContent = pending;
+
+  const recent = allStudios.slice(0, 8);
+  document.getElementById('recentList').innerHTML = recent.length ? recent.map(s => studioCard(s)).join('') : '<div class="empty">Noch keine Studios erfasst.</div>';
+}
+
+// ═══ STUDIO CARD ═══
+function studioCard(s) {
+  const statusBadge = {
+    draft: '<span class="badge badge-draft">Entwurf</span>',
+    pending: '<span class="badge badge-pending">In Prüfung</span>',
+    approved: '<span class="badge badge-approved">Freigegeben</span>',
+    rejected: '<span class="badge badge-rejected">Abgelehnt</span>'
+  }[s.status] || '';
+  
+  const extras = [
+    s.is_pro ? '<span class="badge badge-pro">Pro</span>' : '',
+    s.is_claimed ? '<span class="badge badge-claimed">Claimed</span>' : '',
+    s.is_verified ? '<span class="badge badge-approved">✓ Verifiziert</span>' : ''
+  ].filter(Boolean).join(' ');
+
+  const kat = s.kategorien ? s.kategorien.name : '–';
+  const city = s.staedte ? s.staedte.name : '–';
+  const kanton = s.kantone ? s.kantone.name : '–';
+  const date = new Date(s.created_at).toLocaleDateString('de-CH');
+
+  return `<div class="card">
+    <div class="card-h">
+      <div class="card-title">${s.name} ${statusBadge} ${extras}</div>
+    </div>
+    <div class="card-meta">
+      <span>${kat}</span><span>${city}, ${kanton}</span>
+      <span>${s.telefon || '–'}</span><span>${date}</span>
+      <span>Quelle: ${s.source}</span>
+    </div>
+    <div class="card-actions">
+      <button class="btn-sm btn-edit" onclick="openEdit('${s.id}')">Bearbeiten</button>
+      ${s.status !== 'approved' ? '<button class="btn-sm btn-approve" onclick="setStatus(\''+s.id+'\',\'approved\')">Freigeben</button>' : ''}
+      ${s.status !== 'rejected' ? '<button class="btn-sm btn-reject" onclick="setStatus(\''+s.id+'\',\'rejected\')">Ablehnen</button>' : ''}
+    </div>
+  </div>`;
+}
+
+// ═══ STUDIOS LIST ═══
+function renderStudios() {
+  filterStudios();
+}
+
+function filterStudios() {
+  const q = (document.getElementById('studioSearch').value || '').toLowerCase();
+  const st = document.getElementById('statusFilter').value;
+  let filtered = allStudios;
+  if (q) filtered = filtered.filter(s => s.name.toLowerCase().includes(q) || (s.staedte && s.staedte.name.toLowerCase().includes(q)));
+  if (st) filtered = filtered.filter(s => s.status === st);
+  document.getElementById('studioList').innerHTML = filtered.length ? filtered.map(s => studioCard(s)).join('') : '<div class="empty">Keine Studios gefunden.</div>';
+}
+
+// ═══ PENDING ═══
+function renderPending() {
+  const pending = allStudios.filter(s => s.status === 'pending');
+  document.getElementById('pendingList').innerHTML = pending.length ? pending.map(s => studioCard(s)).join('') : '<div class="empty">Keine Studios zur Prüfung.</div>';
+}
+
+// ═══ CLAIMS ═══
+async function loadClaims() {
+  try {
+    const claims = await api('claims?status=eq.pending&order=created_at.desc');
+    document.getElementById('claimCount').textContent = claims.length;
+    document.getElementById('claimList').innerHTML = claims.length ? claims.map(c => `
+      <div class="card">
+        <div class="card-h"><div class="card-title">Claim für Studio</div><span class="badge badge-pending">Offen</span></div>
+        <div class="card-meta"><span>E-Mail: ${c.email}</span><span>${new Date(c.created_at).toLocaleDateString('de-CH')}</span></div>
+        ${c.nachricht ? '<p style="font-size:.78rem;color:var(--tx2);margin-top:6px">'+c.nachricht+'</p>' : ''}
+        <div class="card-actions">
+          <button class="btn-sm btn-approve" onclick="processClaim('${c.id}','approved')">Freigeben</button>
+          <button class="btn-sm btn-reject" onclick="processClaim('${c.id}','rejected')">Ablehnen</button>
+        </div>
+      </div>
+    `).join('') : '<div class="empty">Keine offenen Claims.</div>';
+  } catch (e) { console.error(e); }
+}
+
+async function processClaim(id, status) {
+  try {
+    await api('claims?id=eq.' + id, { method: 'PATCH', body: { status, processed_at: new Date().toISOString() } });
+    loadClaims();
+  } catch (e) { alert('Fehler: ' + e.message); }
+}
+
+// ═══ QUICK ADD ═══
+async function quickAdd() {
+  const name = document.getElementById('qName').value.trim();
+  const kat = document.getElementById('qKat').value;
+  const kanton = document.getElementById('qKanton').value;
+  const stadtName = document.getElementById('qStadt').value.trim();
+  const errEl = document.getElementById('qErr');
+  const sucEl = document.getElementById('qSuccess');
+  errEl.style.display = 'none';
+  sucEl.style.display = 'none';
+
+  if (!name || !kat || !kanton || !stadtName) {
+    errEl.textContent = 'Bitte Name, Kategorie, Kanton und Stadt ausfüllen.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    // Check if city exists in this kanton
+    let stadtId = null;
+    const existing = await api('staedte?kanton_id=eq.' + kanton + '&name=ilike.' + encodeURIComponent(stadtName));
+    if (existing && existing.length > 0) {
+      stadtId = existing[0].id;
+    } else {
+      // Create new city
+      const slug = stadtName.toLowerCase()
+        .replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue')
+        .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
+      const newCity = await api('staedte', {
+        method: 'POST',
+        body: { name: stadtName, kanton_id: kanton, slug: slug + '-' + Date.now(), is_active: true, studio_count: 0 }
+      });
+      stadtId = newCity[0].id;
+      // Reload staedte cache
+      staedte = await api('staedte?order=sort_order');
+    }
+
+    await api('studios', {
+      method: 'POST',
+      body: {
+        name,
+        kategorie_id: kat,
+        kanton_id: kanton,
+        stadt_id: stadtId,
+        adresse: document.getElementById('qAddr').value || null,
+        adresse_sichtbar: document.getElementById('qAddrVis').checked,
+        telefon: document.getElementById('qTel').value || null,
+        whatsapp: document.getElementById('qWA').value || null,
+        telegram: document.getElementById('qTG').value || null,
+        website: document.getElementById('qWeb').value || null,
+        status: 'approved',
+        source: 'manual',
+        is_verified: true
+      }
+    });
+    sucEl.style.display = 'block';
+    ['qName','qAddr','qTel','qWA','qTG','qWeb'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('qStadt').value = '';
+    setTimeout(() => { sucEl.style.display = 'none'; }, 3000);
+    await loadData();
+  } catch (e) {
+    errEl.textContent = e.message.includes('idx_studios_name_kanton') ? 'Studio mit diesem Namen existiert bereits in diesem Kanton!' : e.message;
+    errEl.style.display = 'block';
+  }
+}
+
+// ═══ STATUS CHANGE ═══
+async function setStatus(id, status) {
+  try {
+    const body = { status };
+    if (status === 'approved') body.is_verified = true;
+    await api('studios?id=eq.' + id, { method: 'PATCH', body });
+    await loadData();
+  } catch (e) { alert('Fehler: ' + e.message); }
+}
+
+// ═══ EDIT MODAL ═══
+function openEdit(id) {
+  const s = allStudios.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('eId').value = s.id;
+  document.getElementById('eName').value = s.name || '';
+  document.getElementById('eKat').value = s.kategorie_id || '';
+  document.getElementById('eStatus').value = s.status;
+  document.getElementById('eAddr').value = s.adresse || '';
+  document.getElementById('eTel').value = s.telefon || '';
+  document.getElementById('eWA').value = s.whatsapp || '';
+  document.getElementById('eTG').value = s.telegram || '';
+  document.getElementById('eWeb').value = s.website || '';
+  document.getElementById('eDesc').value = s.beschreibung || '';
+  document.getElementById('eFeat').value = s.featured ? 'true' : 'false';
+  document.getElementById('eVer').value = s.is_verified ? 'true' : 'false';
+  document.getElementById('ePro').value = s.is_pro ? 'true' : 'false';
+  document.getElementById('eClaimed').value = s.is_claimed ? 'true' : 'false';
+  document.getElementById('eAddrVis').checked = s.adresse_sichtbar !== false;
+  document.getElementById('eSuccess').style.display = 'none';
+  document.getElementById('eErr').style.display = 'none';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEdit() { document.getElementById('editModal').classList.remove('open'); }
+
+async function saveEdit() {
+  const id = document.getElementById('eId').value;
+  const errEl = document.getElementById('eErr');
+  const sucEl = document.getElementById('eSuccess');
+  errEl.style.display = 'none';
+  try {
+    await api('studios?id=eq.' + id, {
+      method: 'PATCH',
+      body: {
+        name: document.getElementById('eName').value,
+        kategorie_id: document.getElementById('eKat').value || null,
+        status: document.getElementById('eStatus').value,
+        adresse: document.getElementById('eAddr').value || null,
+        telefon: document.getElementById('eTel').value || null,
+        whatsapp: document.getElementById('eWA').value || null,
+        telegram: document.getElementById('eTG').value || null,
+        website: document.getElementById('eWeb').value || null,
+        beschreibung: document.getElementById('eDesc').value || null,
+        featured: document.getElementById('eFeat').value === 'true',
+        is_verified: document.getElementById('eVer').value === 'true',
+        is_pro: document.getElementById('ePro').value === 'true',
+        is_claimed: document.getElementById('eClaimed').value === 'true',
+        adresse_sichtbar: document.getElementById('eAddrVis').checked
+      }
+    });
+    sucEl.style.display = 'block';
+    setTimeout(() => { sucEl.style.display = 'none'; closeEdit(); }, 1500);
+    await loadData();
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+  }
+}
+
+// ═══ TABS ═══
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('p-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══ AUTO-LOGIN ═══
+(function() {
+  const saved = localStorage.getItem('vm_token');
+  const email = localStorage.getItem('vm_email');
+  if (saved) {
+    token = saved;
+    showApp(email || 'Admin');
+  }
+})();
+</script>
+</body>
+</html>
