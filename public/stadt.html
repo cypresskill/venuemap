@@ -21,7 +21,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{positi
 .city-hero h1{font-family:var(--fs);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;letter-spacing:-.02em;margin-bottom:4px}
 .city-hero p{font-size:.88rem;color:var(--tx2);font-weight:300}
 .studio-g{display:grid;gap:14px;padding:24px 0 80px;grid-template-columns:1fr}@media(min-width:600px){.studio-g{grid-template-columns:repeat(2,1fr)}}@media(min-width:900px){.studio-g{grid-template-columns:repeat(3,1fr)}}
-.sc{overflow:hidden;cursor:pointer;display:block;position:relative}.sc:hover{border-color:rgba(200,146,106,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}.sc-img{height:200px;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center}.sc-img::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,8,13,.7));z-index:1}.sc-img svg{width:28px;height:28px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}.sc-cat{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(9,8,13,.6);backdrop-filter:blur(8px);color:var(--tx2);letter-spacing:.04em;text-transform:uppercase;z-index:2;border:1px solid var(--bdr)}.sc-b{padding:18px 20px}.sc-n{font-family:var(--fs);font-size:1.05rem;font-weight:400;margin-bottom:5px;display:flex;align-items:center;gap:8px}.sc-v{display:inline-flex;align-items:center;gap:3px;font-size:.56rem;font-weight:600;color:var(--grn);background:rgba(107,173,142,.08);padding:2px 7px;border-radius:4px;border:1px solid rgba(107,173,142,.15)}.sc-v svg{width:8px;height:8px;stroke:var(--grn);fill:none;stroke-width:2.5}.sc-loc{font-size:.74rem;color:var(--tx3);display:flex;align-items:center;gap:4px}.sc-loc svg{width:10px;height:10px;stroke:var(--tx3);fill:none;stroke-width:2}
+.sc{overflow:hidden;cursor:pointer;display:block;position:relative}.sc:hover{border-color:rgba(200,146,106,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}.sc-img{height:200px;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.sc-img::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,8,13,.7));z-index:1}.sc-img svg{width:28px;height:28px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}.sc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.sc-cat{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(9,8,13,.6);backdrop-filter:blur(8px);color:var(--tx2);letter-spacing:.04em;text-transform:uppercase;z-index:2;border:1px solid var(--bdr)}.sc-b{padding:18px 20px}.sc-n{font-family:var(--fs);font-size:1.05rem;font-weight:400;margin-bottom:5px;display:flex;align-items:center;gap:8px}.sc-v{display:inline-flex;align-items:center;gap:3px;font-size:.56rem;font-weight:600;color:var(--grn);background:rgba(107,173,142,.08);padding:2px 7px;border-radius:4px;border:1px solid rgba(107,173,142,.15)}.sc-v svg{width:8px;height:8px;stroke:var(--grn);fill:none;stroke-width:2.5}.sc-loc{font-size:.74rem;color:var(--tx3);display:flex;align-items:center;gap:4px}.sc-loc svg{width:10px;height:10px;stroke:var(--tx3);fill:none;stroke-width:2}
 .empty{text-align:center;padding:60px 20px;color:var(--tx3);font-size:.88rem}
 footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}@media(min-width:768px){.foot{flex-direction:row;justify-content:space-between}}.foot-l{display:flex;gap:18px;font-size:.74rem;color:var(--tx3)}.foot-l a:hover{color:var(--tx2)}.foot-18{font-size:.62rem;color:var(--tx3);opacity:.35}
 </style>
@@ -58,7 +58,7 @@ async function init(){
   try {
     const [cityArr, studios] = await Promise.all([
       q('staedte?id=eq.'+cityId+'&select=*,kantone(name)'),
-      q('studios?stadt_id=eq.'+cityId+'&status=eq.approved&order=is_pro.desc,sort_order,created_at.desc&select=*,kategorien(name),staedte(name)')
+      q('studios?stadt_id=eq.'+cityId+'&status=eq.approved&order=is_pro.desc,sort_order,created_at.desc&select=*,kategorien(name),staedte(name),studio_bilder(url,storage_path)')
     ]);
     const city = cityArr[0];
     if (!city) { document.getElementById('cityTitle').textContent = 'Stadt nicht gefunden'; return; }
@@ -68,6 +68,7 @@ async function init(){
     document.getElementById('cityTitle').textContent = 'Studios in ' + city.name;
     document.getElementById('citySubtitle').textContent = studios.length + ' Studios' + (city.kantone ? ' im Kanton ' + city.kantone.name : '');
 
+    const SB_STORAGE='https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/studio-bilder/';
     const imgSvg='<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
     const pinSvg='<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg>';
     const checkSvg='<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
@@ -80,7 +81,9 @@ async function init(){
     document.getElementById('studioGrid').innerHTML = studios.map((s,i) => {
       const kat = s.kategorien ? s.kategorien.name : '';
       const verified = s.is_verified ? '<span class="sc-v">'+checkSvg+'Geprüft</span>' : '';
-      return '<a href="/detail.html?id='+s.id+'" class="glass sc rv d'+(i%4+1)+'"><div class="sc-img">'+imgSvg+'<span class="sc-cat">'+kat+'</span></div><div class="sc-b"><div class="sc-n">'+s.name+' '+verified+'</div><div class="sc-loc">'+pinSvg+city.name+'</div></div></a>';
+      var imgHtml=imgSvg;
+      if(s.studio_bilder&&s.studio_bilder.length>0){var b=s.studio_bilder[0];var u=b.url&&b.url.startsWith('http')?b.url:(b.storage_path?SB_STORAGE+b.storage_path:'');if(u)imgHtml='<img src="'+u+'" alt="'+s.name+'" loading="lazy">';}
+      return '<a href="/detail.html?id='+s.id+'" class="glass sc rv d'+(i%4+1)+'"><div class="sc-img">'+imgHtml+'<span class="sc-cat">'+kat+'</span></div><div class="sc-b"><div class="sc-n">'+s.name+' '+verified+'</div><div class="sc-loc">'+pinSvg+city.name+'</div></div></a>';
     }).join('');
 
     document.querySelectorAll('.rv:not(.v)').forEach(function(el){
