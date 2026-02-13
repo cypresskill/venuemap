@@ -29,6 +29,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{positi
 .sc{overflow:hidden;cursor:pointer;display:block;position:relative}.sc:hover{border-color:rgba(200,146,106,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}.sc-img{height:200px;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center}.sc-img::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,8,13,.7));z-index:1}.sc-img svg{width:28px;height:28px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}.sc-cat{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(9,8,13,.6);backdrop-filter:blur(8px);color:var(--tx2);letter-spacing:.04em;text-transform:uppercase;z-index:2;border:1px solid var(--bdr)}.sc-b{padding:18px 20px}.sc-n{font-family:var(--fs);font-size:1.05rem;font-weight:400;margin-bottom:5px;display:flex;align-items:center;gap:8px}.sc-v{display:inline-flex;align-items:center;gap:3px;font-size:.56rem;font-weight:600;color:var(--grn);background:rgba(107,173,142,.08);padding:2px 7px;border-radius:4px;border:1px solid rgba(107,173,142,.15)}.sc-v svg{width:8px;height:8px;stroke:var(--grn);fill:none;stroke-width:2.5}.sc-loc{font-size:.74rem;color:var(--tx3);display:flex;align-items:center;gap:4px}.sc-loc svg{width:10px;height:10px;stroke:var(--tx3);fill:none;stroke-width:2}
 .how{padding:80px 0;position:relative}@media(min-width:768px){.how{padding:100px 0}}.how::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}.how-g{display:grid;gap:12px;margin-top:40px}@media(min-width:768px){.how-g{grid-template-columns:repeat(3,1fr);gap:16px}}.how-c{padding:28px 24px;position:relative;overflow:hidden}.how-c::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--ac),transparent);opacity:0;transition:opacity .4s}.how-c:hover::before{opacity:.5}.how-num{font-family:var(--fs);font-size:2.2rem;background:linear-gradient(180deg,rgba(200,146,106,.12),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:14px;line-height:1}.how-c h3{font-size:.88rem;font-weight:500;margin-bottom:5px}.how-c p{font-size:.78rem;line-height:1.65;color:var(--tx2);font-weight:300}
 .regions{padding:80px 0;position:relative}@media(min-width:768px){.regions{padding:100px 0}}.regions::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}
+.map-wrap{position:relative}
+#chMap path{fill:rgba(255,255,255,.03);stroke:rgba(255,255,255,.08);stroke-width:1.5;cursor:pointer;transition:fill .25s,stroke .25s}#chMap path:hover{fill:rgba(200,146,106,.12);stroke:var(--ac)}#chMap path.has-studios{fill:rgba(200,146,106,.06);stroke:rgba(200,146,106,.2)}#chMap path.has-studios:hover{fill:rgba(200,146,106,.18);stroke:var(--ac)}
 .reg-group{margin-bottom:24px}.reg-kanton{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;padding-left:4px}.reg-cities{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}@media(min-width:600px){.reg-cities{grid-template-columns:repeat(3,1fr)}}@media(min-width:900px){.reg-cities{grid-template-columns:repeat(4,1fr)}}
 .cta-sec{padding:80px 0;position:relative}@media(min-width:768px){.cta-sec{padding:100px 0}}.cta-sec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}.cta-box{background:var(--sf);backdrop-filter:blur(16px);border:1px solid var(--bdr);border-radius:20px;padding:48px 24px;text-align:center;position:relative;overflow:hidden}@media(min-width:768px){.cta-box{padding:68px 48px}}.cta-box::before{content:'';position:absolute;top:-40%;right:-20%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,106,.06),transparent 70%);pointer-events:none}.cta-box h2{font-family:var(--fs);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:400;position:relative}.cta-box p{margin:10px auto 0;font-size:.88rem;color:var(--tx2);max-width:370px;position:relative;font-weight:300}
 footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}@media(min-width:768px){.foot{flex-direction:row;justify-content:space-between}}.foot-l{display:flex;gap:18px;font-size:.74rem;color:var(--tx3)}.foot-l a:hover{color:var(--tx2)}.foot-18{font-size:.62rem;color:var(--tx3);opacity:.35}
@@ -58,6 +60,37 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 <section class="how"><div class="ctn"><div class="s-label rv">So funktioniert's</div><h2 class="s-title rv d1">In 30 Sekunden zum Ziel</h2><div class="how-g"><div class="glass how-c rv d1"><div class="how-num">01</div><h3>Stadt wählen</h3><p>Wähle deine Stadt oder suche direkt nach einem Studio.</p></div><div class="glass how-c rv d2"><div class="how-num">02</div><h3>Studio entdecken</h3><p>Bilder, Services und Tagesbesetzung. Alle Einträge geprüft.</p></div><div class="glass how-c rv d3"><div class="how-num">03</div><h3>Kontakt aufnehmen</h3><p>Per Telefon, WhatsApp oder Telegram – direkt und diskret.</p></div></div></div></section>
 
 <section class="regions"><div class="ctn"><div class="s-label rv">Alle Regionen</div><h2 class="s-title rv d1">Nach Kanton durchsuchen</h2>
+<div class="map-wrap rv d2">
+<svg id="chMap" viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;margin:32px auto 0;display:block">
+<path id="k-ZH" d="M588,197 L620,178 L652,185 L668,205 L660,238 L638,252 L608,248 L585,228 Z" data-name="Zürich" data-code="ZH"/>
+<path id="k-BE" d="M310,280 L355,250 L400,265 L430,300 L450,350 L430,400 L390,430 L340,440 L290,410 L270,360 L280,310 Z" data-name="Bern" data-code="BE"/>
+<path id="k-LU" d="M460,270 L500,255 L535,275 L540,310 L520,340 L485,345 L460,320 Z" data-name="Luzern" data-code="LU"/>
+<path id="k-UR" d="M530,345 L560,330 L580,355 L575,395 L550,410 L525,390 L520,360 Z" data-name="Uri" data-code="UR"/>
+<path id="k-SZ" d="M545,285 L580,270 L610,290 L605,325 L575,340 L545,320 Z" data-name="Schwyz" data-code="SZ"/>
+<path id="k-OW" d="M475,325 L510,315 L525,340 L515,370 L490,375 L470,355 Z" data-name="Obwalden" data-code="OW"/>
+<path id="k-NW" d="M510,315 L540,310 L545,340 L525,355 L510,345 Z" data-name="Nidwalden" data-code="NW"/>
+<path id="k-GL" d="M615,280 L645,265 L668,285 L660,315 L635,320 L615,305 Z" data-name="Glarus" data-code="GL"/>
+<path id="k-ZG" d="M535,260 L558,250 L575,268 L568,290 L545,295 L530,278 Z" data-name="Zug" data-code="ZG"/>
+<path id="k-FR" d="M240,340 L280,310 L310,330 L315,370 L295,400 L260,405 L235,380 Z" data-name="Fribourg" data-code="FR"/>
+<path id="k-SO" d="M380,195 L420,180 L455,200 L450,230 L420,245 L385,235 Z" data-name="Solothurn" data-code="SO"/>
+<path id="k-BS" d="M355,145 L378,138 L388,158 L375,172 L355,165 Z" data-name="Basel-Stadt" data-code="BS"/>
+<path id="k-BL" d="M335,160 L368,145 L395,162 L400,190 L375,200 L345,195 Z" data-name="Basel-Landschaft" data-code="BL"/>
+<path id="k-SH" d="M530,115 L565,105 L585,120 L580,145 L555,150 L530,138 Z" data-name="Schaffhausen" data-code="SH"/>
+<path id="k-AR" d="M700,180 L725,172 L738,190 L728,208 L708,205 Z" data-name="Appenzell A.Rh." data-code="AR"/>
+<path id="k-AI" d="M718,200 L738,192 L748,208 L738,222 L720,218 Z" data-name="Appenzell I.Rh." data-code="AI"/>
+<path id="k-SG" d="M660,170 L700,155 L740,170 L750,210 L735,248 L700,260 L670,250 L655,220 L648,195 Z" data-name="St. Gallen" data-code="SG"/>
+<path id="k-GR" d="M620,310 L670,280 L730,290 L780,320 L800,370 L780,420 L730,440 L680,425 L640,400 L620,360 Z" data-name="Graubünden" data-code="GR"/>
+<path id="k-AG" d="M440,170 L480,155 L520,170 L530,200 L515,228 L480,240 L450,230 L435,200 Z" data-name="Aargau" data-code="AG"/>
+<path id="k-TG" d="M600,135 L645,120 L680,135 L685,165 L655,178 L620,175 L600,158 Z" data-name="Thurgau" data-code="TG"/>
+<path id="k-TI" d="M500,420 L540,405 L575,420 L590,465 L570,510 L535,525 L505,510 L490,470 Z" data-name="Tessin" data-code="TI"/>
+<path id="k-VD" d="M130,320 L185,290 L240,310 L260,360 L245,410 L200,440 L150,430 L110,400 L105,355 Z" data-name="Waadt" data-code="VD"/>
+<path id="k-VS" d="M200,440 L270,415 L340,440 L400,450 L430,480 L400,520 L340,540 L270,530 L210,510 L170,480 Z" data-name="Wallis" data-code="VS"/>
+<path id="k-NE" d="M220,265 L265,250 L290,270 L280,300 L250,310 L220,295 Z" data-name="Neuenburg" data-code="NE"/>
+<path id="k-GE" d="M80,395 L115,378 L135,400 L125,435 L95,445 L72,425 Z" data-name="Genf" data-code="GE"/>
+<path id="k-JU" d="M255,170 L295,155 L330,170 L335,200 L310,215 L275,210 L255,195 Z" data-name="Jura" data-code="JU"/>
+</svg>
+<div id="mapTooltip" style="display:none;position:absolute;background:var(--sf2);border:1px solid var(--bdr2);border-radius:8px;padding:8px 14px;pointer-events:none;z-index:10;font-size:.78rem;backdrop-filter:blur(16px);box-shadow:0 8px 30px rgba(0,0,0,.4)"><div id="ttName" style="font-weight:500;margin-bottom:2px"></div><div id="ttCount" style="font-size:.66rem;color:var(--ac)"></div></div>
+</div>
 <div id="regionsGrid" style="margin-top:32px"><div class="loading">Lade…</div></div>
 </div></section>
 
@@ -142,6 +175,51 @@ async function init(){
     // Re-observe reveal animations
     document.querySelectorAll('.rv:not(.v)').forEach(function(el){
       new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.08,rootMargin:'0px 0px -40px 0px'}).observe(el);
+    });
+
+    // Map interactivity
+    var kantonCounts = {};
+    var kantonCityMap = {};
+    cities.forEach(function(c){
+      if(c.kantone){
+        var code = c.kantone.code;
+        kantonCounts[code] = (kantonCounts[code]||0) + c.live_count;
+        if(!kantonCityMap[code]) kantonCityMap[code] = [];
+        kantonCityMap[code].push(c);
+      }
+    });
+    // Highlight cantons with studios
+    document.querySelectorAll('#chMap path').forEach(function(p){
+      var code = p.getAttribute('data-code');
+      if(kantonCounts[code] > 0) p.classList.add('has-studios');
+    });
+    // Tooltip
+    var tt = document.getElementById('mapTooltip');
+    var wrap = document.querySelector('.map-wrap');
+    document.querySelectorAll('#chMap path').forEach(function(p){
+      p.addEventListener('mouseenter', function(e){
+        var code = p.getAttribute('data-code');
+        var name = p.getAttribute('data-name');
+        var cnt = kantonCounts[code] || 0;
+        document.getElementById('ttName').textContent = name;
+        document.getElementById('ttCount').textContent = cnt > 0 ? cnt + ' Studios' : 'Noch keine Studios';
+        tt.style.display = 'block';
+      });
+      p.addEventListener('mousemove', function(e){
+        var rect = wrap.getBoundingClientRect();
+        tt.style.left = (e.clientX - rect.left + 12) + 'px';
+        tt.style.top = (e.clientY - rect.top - 40) + 'px';
+      });
+      p.addEventListener('mouseleave', function(){ tt.style.display = 'none'; });
+      p.addEventListener('click', function(){
+        var code = p.getAttribute('data-code');
+        var kCities = kantonCityMap[code];
+        if(kCities && kCities.length === 1) window.location.href = '/stadt.html?id=' + kCities[0].id;
+        else if(kCities && kCities.length > 1){
+          var el = document.getElementById('regionsGrid');
+          el.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      });
     });
 
   } catch(e) { console.error('Load error:', e); }
