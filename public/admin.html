@@ -11,6 +11,7 @@
 .login-box{background:var(--sf);border:1px solid var(--bdr2);border-radius:20px;padding:44px 32px;max-width:380px;width:100%;backdrop-filter:blur(16px)}
 .login-box h1{font-size:1.2rem;font-weight:500;margin-bottom:4px}.login-box p{font-size:.8rem;color:var(--tx3);margin-bottom:24px}
 .fg{margin-bottom:14px}.fg label{display:block;font-size:.72rem;font-weight:500;color:var(--tx2);margin-bottom:4px}.fg input,.fg select,.fg textarea{width:100%;height:42px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.84rem;color:var(--tx);outline:none;transition:border-color .2s}.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--ac)}.fg input::placeholder,.fg textarea::placeholder{color:var(--tx3)}.fg textarea{height:80px;padding:10px 12px;resize:vertical}.fg select{appearance:none}.fg select option{background:#161520;color:#F4F2F7}
+select option{background:#161520;color:#F4F2F7}
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{width:100%;height:46px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:.86rem;font-weight:600;cursor:pointer;transition:all .2s}.btn:hover{opacity:.9}
 .btn-sm{height:32px;padding:0 14px;font-size:.72rem;font-weight:600;border:none;border-radius:6px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
@@ -71,7 +72,7 @@
 </div>
 <div class="content">
 <div class="page active" id="p-dashboard"><div class="stat-row" id="stats"></div><h3 style="font-size:.86rem;font-weight:500;margin-bottom:12px;color:var(--tx2)">Letzte Aktivität</h3><div id="recentList"><div class="empty">Lade...</div></div></div>
-<div class="page" id="p-studios"><div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="studioSearch" placeholder="Studio suchen…" style="flex:1;min-width:200px;height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none" oninput="filterStudios()"><select id="statusFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:120px" onchange="filterStudios()"><option value="">Alle Status</option><option value="approved">Freigegeben</option><option value="pending">In Prüfung</option><option value="draft">Entwurf</option><option value="rejected">Abgelehnt</option></select></div><div id="studioList"><div class="empty">Lade...</div></div></div>
+<div class="page" id="p-studios"><div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="studioSearch" placeholder="Studio suchen…" style="flex:1;min-width:160px;height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none" oninput="filterStudios()"><select id="statusFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:110px" onchange="filterStudios()"><option value="">Alle Status</option><option value="approved">Freigegeben</option><option value="pending">In Prüfung</option><option value="draft">Entwurf</option><option value="rejected">Abgelehnt</option></select><select id="katFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:110px" onchange="filterStudios()"><option value="">Alle Kategorien</option></select><select id="kantonFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:110px" onchange="filterStudios()"><option value="">Alle Kantone</option></select><select id="proFilter" style="height:38px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;font-family:var(--f);font-size:.82rem;color:var(--tx);outline:none;min-width:90px" onchange="filterStudios()"><option value="">Alle</option><option value="pro">Nur Pro</option><option value="claimed">Nur Claimed</option><option value="featured">Nur Featured</option></select></div><div style="font-size:.72rem;color:var(--tx3);margin-bottom:10px" id="studioCountText"></div><div id="studioList"><div class="empty">Lade...</div></div></div>
 <div class="page" id="p-pending"><div id="pendingList"><div class="empty">Lade...</div></div></div>
 <div class="page" id="p-claims"><div id="claimList"><div class="empty">Lade...</div></div></div>
 <div class="page" id="p-add"><div class="qadd"><h3>Studio schnell erfassen</h3><div class="fg"><label>Studioname *</label><input type="text" id="qName" placeholder="z.B. Studio Bellevue"></div><div class="fg-row"><div class="fg"><label>Kategorie *</label><select id="qKat"></select></div><div class="fg"><label>Kanton *</label><select id="qKanton"></select></div></div><div class="fg"><label>Stadt *</label><input type="text" id="qStadt" placeholder="z.B. Altdorf, Zürich…"></div><div class="fg"><label>Adresse</label><input type="text" id="qAddr" placeholder="Strasse, Hausnummer (optional)"></div><label style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--tx2);margin-bottom:14px;cursor:pointer"><input type="checkbox" id="qAddrVis" checked style="accent-color:var(--ac);width:16px;height:16px"> Adresse im Profil anzeigen</label><div class="fg-row"><div class="fg"><label>Telefon</label><input type="text" id="qTel" placeholder="+41 …"></div><div class="fg"><label>WhatsApp</label><input type="text" id="qWA" placeholder="+41 …"></div></div><div class="fg-row"><div class="fg"><label>Telegram</label><input type="text" id="qTG" placeholder="@username"></div><div class="fg"><label>Website</label><input type="text" id="qWeb" placeholder="https://…"></div></div><button class="btn" onclick="quickAdd()">Erfassen & direkt freigeben</button><div class="success" id="qSuccess">✓ Studio erfasst!</div><div class="err" id="qErr"></div></div></div>
@@ -86,11 +87,22 @@
   <div class="mpane active" id="mp-info">
     <div class="fg"><label>Name</label><input type="text" id="eName"></div>
     <div class="fg-row"><div class="fg"><label>Kategorie</label><select id="eKat"></select></div><div class="fg"><label>Status</label><select id="eStatus"><option value="draft">Entwurf</option><option value="pending">In Prüfung</option><option value="approved">Freigegeben</option><option value="rejected">Abgelehnt</option></select></div></div>
+    <div class="fg-row"><div class="fg"><label>Kanton</label><select id="eKanton" onchange="loadEditCities()"></select></div><div class="fg"><label>Stadt</label><select id="eStadt"></select></div></div>
     <div class="fg"><label>Adresse</label><input type="text" id="eAddr"></div>
     <label style="display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--tx2);margin-bottom:14px;cursor:pointer"><input type="checkbox" id="eAddrVis" checked style="accent-color:var(--ac);width:16px;height:16px"> Adresse im Profil anzeigen</label>
     <div class="fg-row"><div class="fg"><label>Telefon</label><input type="text" id="eTel"></div><div class="fg"><label>WhatsApp</label><input type="text" id="eWA"></div></div>
     <div class="fg-row"><div class="fg"><label>Telegram</label><input type="text" id="eTG"></div><div class="fg"><label>Website</label><input type="text" id="eWeb"></div></div>
     <div class="fg"><label>Beschreibung <span id="eDescCount" style="float:right;font-weight:400;color:var(--tx3)">0/500</span></label><textarea id="eDesc" style="height:140px" maxlength="500" oninput="document.getElementById('eDescCount').textContent=this.value.length+'/500'"></textarea></div>
+    <div class="fg-sep">Öffnungszeiten</div>
+    <div style="display:grid;grid-template-columns:60px 1fr;gap:4px 8px;align-items:center;font-size:.78rem;margin-bottom:14px">
+      <span style="color:var(--tx2)">Montag</span><input type="text" id="eH_mo" placeholder="z.B. 10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Dienstag</span><input type="text" id="eH_di" placeholder="10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Mittwoch</span><input type="text" id="eH_mi" placeholder="10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Donnerstag</span><input type="text" id="eH_do" placeholder="10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Freitag</span><input type="text" id="eH_fr" placeholder="10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Samstag</span><input type="text" id="eH_sa" placeholder="10:00–22:00" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+      <span style="color:var(--tx2)">Sonntag</span><input type="text" id="eH_so" placeholder="Geschlossen" style="height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.78rem;color:var(--tx);outline:none">
+    </div>
     <div class="fg-row"><div class="fg"><label>Featured</label><select id="eFeat"><option value="false">Nein</option><option value="true">Ja</option></select></div><div class="fg"><label>Verifiziert</label><select id="eVer"><option value="false">Nein</option><option value="true">Ja</option></select></div></div>
     <div class="fg-row"><div class="fg"><label>VenueMap Pro</label><select id="ePro"><option value="false">Nein</option><option value="true">Ja</option></select></div><div class="fg"><label>Claimed</label><select id="eClaimed"><option value="false">Nein</option><option value="true">Ja</option></select></div></div>
     <input type="hidden" id="eId">
@@ -179,7 +191,13 @@ async function loadData(){
 }
 function populateSelects(){
   [document.getElementById('qKat'),document.getElementById('eKat')].forEach(s=>{s.innerHTML='<option value="">Wählen…</option>'+kategorien.map(k=>'<option value="'+k.id+'">'+k.name+'</option>').join('');});
-  document.getElementById('qKanton').innerHTML='<option value="">Wählen…</option>'+kantone.map(k=>'<option value="'+k.id+'">'+k.name+'</option>').join('');
+  [document.getElementById('qKanton'),document.getElementById('eKanton')].forEach(s=>{s.innerHTML='<option value="">Wählen…</option>'+kantone.map(k=>'<option value="'+k.id+'">'+k.name+'</option>').join('');});
+}
+function loadEditCities(){
+  var kid=document.getElementById('eKanton').value;
+  var sel=document.getElementById('eStadt');
+  var filtered=kid?staedte.filter(s=>s.kanton_id===kid):staedte;
+  sel.innerHTML='<option value="">Wählen…</option>'+filtered.map(s=>'<option value="'+s.id+'">'+s.name+'</option>').join('');
 }
 
 // === DASHBOARD ===
@@ -196,10 +214,23 @@ function studioCard(s){
   const kat=s.kategorien?s.kategorien.name:'–',city=s.staedte?s.staedte.name:'–',kanton=s.kantone?s.kantone.name:'–',date=new Date(s.created_at).toLocaleDateString('de-CH');
   return '<div class="card"><div class="card-h"><div class="card-title">'+s.name+' '+sb+' '+ex+'</div></div><div class="card-meta"><span>'+kat+'</span><span>'+city+', '+kanton+'</span><span>'+date+'</span></div><div class="card-actions"><button class="btn-sm btn-edit" onclick="openEdit(\''+s.id+'\')">Bearbeiten</button>'+(s.status!=='approved'?'<button class="btn-sm btn-approve" onclick="setStatus(\''+s.id+'\',\'approved\')">Freigeben</button>':'')+(s.status!=='rejected'?'<button class="btn-sm btn-reject" onclick="setStatus(\''+s.id+'\',\'rejected\')">Ablehnen</button>':'')+'</div></div>';
 }
-function renderStudios(){filterStudios();}
+function renderStudios(){
+  // Populate filter dropdowns
+  var kf=document.getElementById('katFilter');if(kf.options.length<=1)kategorien.forEach(k=>{var o=document.createElement('option');o.value=k.id;o.textContent=k.name;kf.appendChild(o);});
+  var kanf=document.getElementById('kantonFilter');if(kanf.options.length<=1)kantone.forEach(k=>{var o=document.createElement('option');o.value=k.id;o.textContent=k.name;kanf.appendChild(o);});
+  filterStudios();
+}
 function filterStudios(){
-  const q=(document.getElementById('studioSearch').value||'').toLowerCase(),st=document.getElementById('statusFilter').value;
-  let f=allStudios;if(q)f=f.filter(s=>s.name.toLowerCase().includes(q)||(s.staedte&&s.staedte.name.toLowerCase().includes(q)));if(st)f=f.filter(s=>s.status===st);
+  const q=(document.getElementById('studioSearch').value||'').toLowerCase(),st=document.getElementById('statusFilter').value,kat=document.getElementById('katFilter').value,kan=document.getElementById('kantonFilter').value,pro=document.getElementById('proFilter').value;
+  let f=allStudios;
+  if(q)f=f.filter(s=>s.name.toLowerCase().includes(q)||(s.staedte&&s.staedte.name.toLowerCase().includes(q)));
+  if(st)f=f.filter(s=>s.status===st);
+  if(kat)f=f.filter(s=>s.kategorie_id===kat);
+  if(kan)f=f.filter(s=>s.kanton_id===kan);
+  if(pro==='pro')f=f.filter(s=>s.is_pro);
+  if(pro==='claimed')f=f.filter(s=>s.is_claimed);
+  if(pro==='featured')f=f.filter(s=>s.featured);
+  document.getElementById('studioCountText').textContent=f.length+' von '+allStudios.length+' Studios';
   document.getElementById('studioList').innerHTML=f.length?f.map(s=>studioCard(s)).join(''):'<div class="empty">Keine Studios gefunden.</div>';
 }
 function renderPending(){const p=allStudios.filter(s=>s.status==='pending');document.getElementById('pendingList').innerHTML=p.length?p.map(s=>studioCard(s)).join(''):'<div class="empty">Keine Studios zur Prüfung.</div>';}
@@ -233,7 +264,12 @@ function showMTab(name,btn){document.querySelectorAll('.mpane').forEach(p=>p.cla
 async function openEdit(id){
   currentEditId=id;const s=allStudios.find(x=>x.id===id);if(!s)return;
   document.getElementById('editTitle').textContent=s.name+' bearbeiten';
-  document.getElementById('eId').value=s.id;document.getElementById('eName').value=s.name||'';document.getElementById('eKat').value=s.kategorie_id||'';document.getElementById('eStatus').value=s.status;document.getElementById('eAddr').value=s.adresse||'';document.getElementById('eAddrVis').checked=s.adresse_sichtbar!==false;document.getElementById('eTel').value=s.telefon||'';document.getElementById('eWA').value=s.whatsapp||'';document.getElementById('eTG').value=s.telegram||'';document.getElementById('eWeb').value=s.website||'';document.getElementById('eDesc').value=s.beschreibung||'';document.getElementById('eFeat').value=s.featured?'true':'false';document.getElementById('eVer').value=s.is_verified?'true':'false';document.getElementById('ePro').value=s.is_pro?'true':'false';document.getElementById('eClaimed').value=s.is_claimed?'true':'false';
+  document.getElementById('eId').value=s.id;document.getElementById('eName').value=s.name||'';document.getElementById('eKat').value=s.kategorie_id||'';document.getElementById('eStatus').value=s.status;document.getElementById('eAddr').value=s.adresse||'';document.getElementById('eAddrVis').checked=s.adresse_sichtbar!==false;document.getElementById('eTel').value=s.telefon||'';document.getElementById('eWA').value=s.whatsapp||'';document.getElementById('eTG').value=s.telegram||'';document.getElementById('eWeb').value=s.website||'';document.getElementById('eDesc').value=s.beschreibung||'';document.getElementById('eDescCount').textContent=(s.beschreibung||'').length+'/500';document.getElementById('eFeat').value=s.featured?'true':'false';document.getElementById('eVer').value=s.is_verified?'true':'false';document.getElementById('ePro').value=s.is_pro?'true':'false';document.getElementById('eClaimed').value=s.is_claimed?'true':'false';
+  // Kanton & Stadt
+  document.getElementById('eKanton').value=s.kanton_id||'';loadEditCities();document.getElementById('eStadt').value=s.stadt_id||'';
+  // Öffnungszeiten
+  var h=s.oeffnungszeiten||{};var hk=['mo','di','mi','do','fr','sa','so'];
+  hk.forEach(function(k){document.getElementById('eH_'+k).value=h[k]||'';});
   document.getElementById('eSuccess').style.display='none';document.getElementById('eErr').style.display='none';
   showMTab('info',document.querySelector('.mtab'));
   loadImages(id);loadGirls(id);loadStudioServices(id);
@@ -243,9 +279,13 @@ function closeEdit(){document.getElementById('editModal').classList.remove('open
 
 async function saveEdit(){
   const id=document.getElementById('eId').value,errEl=document.getElementById('eErr'),sucEl=document.getElementById('eSuccess');errEl.style.display='none';sucEl.style.display='none';
+  var hk=['mo','di','mi','do','fr','sa','so'];
+  var oez={};hk.forEach(function(k){var v=document.getElementById('eH_'+k).value.trim();if(v)oez[k]=v;});
   var body={
     name:document.getElementById('eName').value,
     kategorie_id:document.getElementById('eKat').value||null,
+    kanton_id:document.getElementById('eKanton').value||null,
+    stadt_id:document.getElementById('eStadt').value||null,
     status:document.getElementById('eStatus').value,
     adresse:document.getElementById('eAddr').value||null,
     telefon:document.getElementById('eTel').value||null,
@@ -253,6 +293,7 @@ async function saveEdit(){
     telegram:document.getElementById('eTG').value||null,
     website:document.getElementById('eWeb').value||null,
     beschreibung:document.getElementById('eDesc').value||null,
+    oeffnungszeiten:Object.keys(oez).length?oez:null,
     featured:document.getElementById('eFeat').value==='true',
     is_verified:document.getElementById('eVer').value==='true',
     is_pro:document.getElementById('ePro').value==='true',
