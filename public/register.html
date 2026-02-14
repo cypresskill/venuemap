@@ -38,30 +38,37 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
     <h1>Studio eintragen</h1>
     <p>Erstelle dein Profil in 2 Minuten. Freischaltung innerhalb von 24 Stunden.</p>
   </div>
-  <div class="reg-form rv d1">
-    <div class="fg"><label>Studioname *</label><input type="text" placeholder="z.B. Studio Bellevue"></div>
+  <div class="reg-form rv d1" id="regForm">
+    <div class="fg"><label>Studioname *</label><input type="text" id="rName" placeholder="z.B. Studio Bellevue"></div>
     <div class="fg-row">
-      <div class="fg"><label>Kategorie *</label><select><option value="">Wählen…</option><option>Studio</option><option>Club</option><option>Laufhaus</option><option>Massageshop</option></select></div>
-      <div class="fg"><label>Kanton *</label><select><option value="">Wählen…</option><option>Zürich</option><option>Bern</option><option>Basel-Stadt</option><option>Basel-Landschaft</option><option>Luzern</option><option>Waadt</option><option>Genf</option><option>St. Gallen</option><option>Aargau</option><option>Thurgau</option><option>Zug</option><option>Andere</option></select></div>
+      <div class="fg"><label>Kategorie *</label><select id="rKat"><option value="">Wählen…</option></select></div>
+      <div class="fg"><label>Kanton *</label><select id="rKanton" onchange="loadRegCities()"><option value="">Wählen…</option></select></div>
     </div>
-    <div class="fg"><label>Stadt *</label><input type="text" placeholder="z.B. Zürich"></div>
-    <div class="fg"><label>Adresse</label><input type="text" placeholder="Strasse und Hausnummer (optional)"></div>
+    <div class="fg"><label>Stadt *</label><input type="text" id="rStadt" placeholder="z.B. Zürich"></div>
+    <div class="fg"><label>Adresse</label><input type="text" id="rAddr" placeholder="Strasse und Hausnummer (optional)"></div>
     <div class="fg-sep">Kontakt</div>
     <div class="fg-row">
-      <div class="fg"><label>Telefon</label><input type="tel" placeholder="+41 …"></div>
-      <div class="fg"><label>WhatsApp</label><input type="tel" placeholder="+41 …"></div>
+      <div class="fg"><label>Telefon</label><input type="tel" id="rTel" placeholder="+41 …"></div>
+      <div class="fg"><label>WhatsApp</label><input type="tel" id="rWA" placeholder="+41 …"></div>
     </div>
     <div class="fg-row">
-      <div class="fg"><label>Telegram</label><input type="text" placeholder="@username"></div>
-      <div class="fg"><label>Website</label><input type="url" placeholder="https://…"></div>
+      <div class="fg"><label>Telegram</label><input type="text" id="rTG" placeholder="@username"></div>
+      <div class="fg"><label>Website</label><input type="url" id="rWeb" placeholder="https://…"></div>
     </div>
     <div class="fg-sep">Dein Konto</div>
-    <div class="fg"><label>E-Mail *</label><input type="email" placeholder="deine@email.ch"></div>
-    <div class="fg"><label>Passwort *</label><input type="password" placeholder="Min. 8 Zeichen"></div>
-    <button class="reg-btn">Kostenlos registrieren</button>
+    <div class="fg"><label>E-Mail *</label><input type="email" id="rEmail" placeholder="deine@email.ch"></div>
+    <div class="fg"><label>Passwort *</label><input type="password" id="rPass" placeholder="Min. 8 Zeichen"></div>
+    <div class="err" id="rErr" style="display:none;color:#C86A6A;font-size:.78rem;margin-bottom:10px"></div>
+    <button class="reg-btn" onclick="doRegister()">Kostenlos registrieren</button>
     <p class="reg-terms">Mit der Registrierung akzeptierst du die <a href="#">AGB</a> und <a href="#">Datenschutzbestimmungen</a>.</p>
   </div>
-  <p class="reg-login rv d2">Schon registriert? <a href="#">Zum Login</a></p>
+  <div class="reg-form rv d1" id="regSuccess" style="display:none;text-align:center;padding:48px 32px">
+    <div style="font-size:2.4rem;margin-bottom:14px">✓</div>
+    <h2 style="font-family:var(--fs);font-size:1.3rem;font-weight:400;margin-bottom:10px">Registrierung erfolgreich!</h2>
+    <p style="font-size:.86rem;color:var(--tx2);line-height:1.6;margin-bottom:20px">Dein Studio wurde eingereicht und wird innerhalb von 24 Stunden geprüft und freigeschaltet. Du erhältst eine Bestätigung per E-Mail.</p>
+    <a href="/" style="color:var(--ac);font-weight:500;font-size:.86rem">← Zur Startseite</a>
+  </div>
+  <p class="reg-login rv d2">Schon registriert? <a href="/admin">Zum Login</a></p>
   <div class="reg-trust rv d2">
     <div class="reg-trust-i"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>SSL-verschlüsselt</div>
     <div class="reg-trust-i"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>3 Monate gratis</div>
@@ -70,6 +77,76 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 </div></section>
 <footer><div class="ctn foot"><div class="foot-l"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div><span class="foot-18">Nur für Personen ab 18 Jahren.</span></div></footer>
 </div>
-<script>document.querySelectorAll('.rv').forEach(function(el){new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.08,rootMargin:'0px 0px -40px 0px'}).observe(el)});</script>
+<script>
+const SB='https://undrlwlxcsrayldbxepd.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZHJsd2x4Y3NyYXlsZGJ4ZXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTkyMDMsImV4cCI6MjA4NjU3NTIwM30.7-U3lFqu5jyrg-CeQwQyJrUmZflC3PqmhytSfRk7KbI';
+async function q(p){var r=await fetch(SB+'/rest/v1/'+p,{headers:{'apikey':SK}});return r.json();}
+async function qp(p,b,t){var h={'apikey':SK,'Content-Type':'application/json','Prefer':'return=representation'};if(t)h['Authorization']='Bearer '+t;var r=await fetch(SB+'/rest/v1/'+p,{method:'POST',headers:h,body:JSON.stringify(b)});if(!r.ok){var e=await r.json().catch(()=>({}));throw new Error(e.message||r.statusText);}return r.json();}
+
+// Load categories and cantons
+(async function(){
+  var [kats,kans]=await Promise.all([q('kategorien?order=sort_order'),q('kantone?order=name')]);
+  var ks=document.getElementById('rKat');kats.forEach(function(k){var o=document.createElement('option');o.value=k.id;o.textContent=k.name;ks.appendChild(o);});
+  var ka=document.getElementById('rKanton');kans.forEach(function(k){var o=document.createElement('option');o.value=k.id;o.textContent=k.name;ka.appendChild(o);});
+  window._kantone=kans;
+})();
+
+function loadRegCities(){}// Stadt is text input, no dropdown needed
+
+async function doRegister(){
+  var err=document.getElementById('rErr');err.style.display='none';
+  var name=document.getElementById('rName').value.trim();
+  var kat=document.getElementById('rKat').value;
+  var kanton=document.getElementById('rKanton').value;
+  var stadt=document.getElementById('rStadt').value.trim();
+  var email=document.getElementById('rEmail').value.trim();
+  var pass=document.getElementById('rPass').value;
+  
+  if(!name||!kat||!kanton||!stadt||!email||!pass){err.textContent='Bitte alle Pflichtfelder (*) ausfüllen.';err.style.display='block';return;}
+  if(pass.length<8){err.textContent='Passwort muss mindestens 8 Zeichen haben.';err.style.display='block';return;}
+  
+  try{
+    // 1. Create user account
+    var authR=await fetch(SB+'/auth/v1/signup',{method:'POST',headers:{'apikey':SK,'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pass})});
+    var authD=await authR.json();
+    if(authD.error)throw new Error(authD.error_description||authD.msg||authD.error.message||'Registrierung fehlgeschlagen');
+    
+    var token=authD.access_token;
+    var userId=authD.user?authD.user.id:null;
+    
+    // 2. Find or create city
+    var exCity=await q('staedte?kanton_id=eq.'+kanton+'&name=ilike.'+encodeURIComponent(stadt));
+    var stadtId;
+    if(exCity&&exCity.length>0){stadtId=exCity[0].id;}
+    else{
+      var slug=stadt.toLowerCase().replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue').replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-');
+      var nc=await qp('staedte',{name:stadt,kanton_id:kanton,slug:slug+'-'+Date.now(),is_active:true,studio_count:0},token);
+      stadtId=nc[0].id;
+    }
+    
+    // 3. Create studio
+    await qp('studios',{
+      name:name,kategorie_id:kat,kanton_id:kanton,stadt_id:stadtId,
+      adresse:document.getElementById('rAddr').value||null,
+      telefon:document.getElementById('rTel').value||null,
+      whatsapp:document.getElementById('rWA').value||null,
+      telegram:document.getElementById('rTG').value||null,
+      website:document.getElementById('rWeb').value||null,
+      status:'pending',source:'registration',
+      owner_id:userId
+    },token);
+    
+    // Success
+    document.getElementById('regForm').style.display='none';
+    document.getElementById('regSuccess').style.display='block';
+  }catch(e){
+    err.textContent=e.message;
+    if(e.message.includes('already registered'))err.textContent='Diese E-Mail ist bereits registriert. Bitte zum Login gehen.';
+    err.style.display='block';
+  }
+}
+
+document.querySelectorAll('.rv').forEach(function(el){new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.08,rootMargin:'0px 0px -40px 0px'}).observe(el);});
+</script>
 </body>
 </html>
