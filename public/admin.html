@@ -321,7 +321,11 @@ async function loadImages(studioId){
   const grid=document.getElementById('imgGrid');grid.innerHTML='<div style="color:var(--tx3);font-size:.76rem">Lade…</div>';
   try{
     const imgs=await api('studio_bilder?studio_id=eq.'+studioId+'&order=sort_order');
-    let html=imgs.map(img=>'<div class="img-item"><img src="'+img.url+'" class="img-thumb"><button class="img-del" onclick="deleteImage(\''+img.id+'\',\''+img.storage_path+'\')">✕</button></div>').join('');
+    let html=imgs.map((img,idx)=>{
+      var imgUrl=img.url&&img.url.startsWith('http')?img.url:(img.storage_path?'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/studio-bilder/'+img.storage_path:'');
+      var isMain=idx===0;
+      return '<div class="img-item"><img src="'+imgUrl+'" class="img-thumb" style="'+(isMain?'border:2px solid var(--ac)':'')+'">'+(isMain?'<span style="position:absolute;bottom:4px;left:4px;font-size:.5rem;font-weight:600;background:var(--ac);color:var(--bg);padding:1px 6px;border-radius:3px">Hauptbild</span>':'<button style="position:absolute;bottom:4px;left:4px;font-size:.48rem;font-weight:600;background:rgba(0,0,0,.6);color:#fff;border:none;padding:2px 6px;border-radius:3px;cursor:pointer" onclick="setMainImage(\''+img.id+'\')">★ Hauptbild</button>')+'<button class="img-del" onclick="deleteImage(\''+img.id+'\',\''+img.storage_path+'\')">✕</button></div>';
+    }).join('');
     if(imgs.length<10)html+='<div class="img-slot" onclick="document.getElementById(\'imgInput\').click()"><span style="font-size:1.2rem">+</span><span>Hochladen</span></div>';
     grid.innerHTML=html;
   }catch(e){grid.innerHTML='<div style="color:var(--red);font-size:.76rem">Fehler: '+e.message+'</div>';}
@@ -344,6 +348,15 @@ async function deleteImage(id,path){
   if(!confirm('Bild löschen?'))return;
   try{await deleteFile('studio-bilder',path);await api('studio_bilder?id=eq.'+id,{method:'DELETE'});loadImages(currentEditId);}
   catch(e){alert(e.message);}
+}
+async function setMainImage(id){
+  try{
+    // Set all images to sort_order 100
+    await api('studio_bilder?studio_id=eq.'+currentEditId,{method:'PATCH',body:{sort_order:100}});
+    // Set selected to sort_order 0
+    await api('studio_bilder?id=eq.'+id,{method:'PATCH',body:{sort_order:0}});
+    loadImages(currentEditId);
+  }catch(e){alert(e.message);}
 }
 
 // === GIRLS ===

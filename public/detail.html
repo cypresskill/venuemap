@@ -43,12 +43,16 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{positi
 .gdp{display:flex;gap:2px;margin-top:8px}.gds{width:20px;height:20px;border-radius:5px;font-size:.5rem;font-weight:600;display:flex;align-items:center;justify-content:center}.gds-on{background:var(--acl);color:var(--ac);border:1px solid rgba(200,146,106,.25)}.gds-today{background:var(--ac);color:var(--bg)}.gds-off{background:rgba(255,255,255,.03);color:var(--tx3);border:1px solid var(--bdr)}
 footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}@media(min-width:768px){.foot{flex-direction:row;justify-content:space-between}}.foot-l{display:flex;gap:18px;font-size:.74rem;color:var(--tx3)}.foot-l a:hover{color:var(--tx2)}.foot-18{font-size:.62rem;color:var(--tx3);opacity:.35}
 .gal{display:grid;gap:4px;margin:16px 0 24px;border-radius:var(--r);overflow:hidden;cursor:pointer}
-.gal-1{grid-template-columns:1fr}.gal-1 .gi{height:380px}
-.gal-2{grid-template-columns:3fr 2fr;grid-template-rows:320px}.gal-2 .gi:first-child{border-radius:var(--r) 0 0 var(--r)}.gal-2 .gi:last-child{border-radius:0 var(--r) var(--r) 0}
-.gal-3{grid-template-columns:3fr 2fr;grid-template-rows:158px 158px}.gal-3 .gi:first-child{grid-row:1/3}
-.gal-m{grid-template-columns:3fr 2fr 2fr;grid-template-rows:158px 158px}.gal-m .gi:first-child{grid-row:1/3}
-.gi{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;background:var(--bg3)}
-.gal-more{position:relative}.gal-more::after{content:attr(data-more);position:absolute;inset:0;background:rgba(9,8,13,.55);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;color:#fff}
+.gal{grid-template-columns:3fr 1fr;grid-template-rows:repeat(3,100px)}
+.gal .gi-main{grid-row:1/4;width:100%;height:100%;object-fit:cover;object-position:center top;background:var(--bg3);border-radius:var(--r) 0 0 var(--r)}
+.gal .gi-side{width:100%;height:100%;object-fit:cover;object-position:center top;background:var(--bg3)}
+.gal .gi-side:last-child{border-radius:0 0 var(--r) 0}
+.gal .gi-side:nth-child(2){border-radius:0 var(--r) 0 0}
+.gal-single{grid-template-columns:1fr;grid-template-rows:380px}
+.gal-single .gi-main{border-radius:var(--r)}
+.gal-count{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);color:#fff;font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:6px;z-index:2}
+.gal-wrap{position:relative}
+.gal-more{position:relative}.gal-more::after{content:attr(data-more);position:absolute;inset:0;background:rgba(9,8,13,.55);display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:600;color:#fff}
 .lb{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column}.lb.open{display:flex}
 .lb-img{max-width:92vw;max-height:80vh;object-fit:contain;border-radius:8px;user-select:none;-webkit-user-select:none}
 .lb-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
@@ -57,8 +61,8 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 .lb-counter{position:absolute;bottom:20px;color:rgba(255,255,255,.5);font-size:.76rem;font-weight:500}
 .lb-caption{color:rgba(255,255,255,.7);font-size:.84rem;margin-top:12px;font-weight:300}
 .gm{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px}.gm.open{display:flex}
-.gm-c{background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto}
-.gm-img{width:100%;max-height:360px;object-fit:cover;object-position:center top;display:block;border-radius:16px 16px 0 0;background:var(--bg3)}
+.gm-c{background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;max-width:500px;width:100%;max-height:88vh;overflow-y:auto}
+.gm-img{width:100%;max-height:440px;object-fit:cover;object-position:center top;display:block;border-radius:16px 16px 0 0;background:var(--bg3)}
 .gm-noimg{width:100%;height:160px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:16px 16px 0 0}
 .gm-noimg svg{width:40px;height:40px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.3}
 .gm-b{padding:20px 22px}
@@ -169,6 +173,23 @@ async function init(){
   let svcH='';
   if(svcs.length)svcH='<div class="dsub">Services</div><div class="dsvcs">'+svcs.map(v=>'<span class="dsvc">'+(v.services?v.services.name:'')+'</span>').join('')+'</div>';
 
+  // Öffnungszeiten
+  var hrsH='';
+  if(s.oeffnungszeiten){
+    var oz=s.oeffnungszeiten;
+    var hkeys=[{k:'mo',l:'Montag'},{k:'di',l:'Dienstag'},{k:'mi',l:'Mittwoch'},{k:'do',l:'Donnerstag'},{k:'fr',l:'Freitag'},{k:'sa',l:'Samstag'},{k:'so',l:'Sonntag'}];
+    var hasAny=hkeys.some(function(h){return oz[h.k];});
+    if(hasAny){
+      hrsH='<div class="dsub" style="margin-top:24px">Öffnungszeiten</div><div style="margin-top:6px">';
+      hkeys.forEach(function(h,i){
+        var val=oz[h.k]||'–';
+        var isToday=i===TODAY;
+        hrsH+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:.82rem;'+(isToday?'background:var(--acl);margin:0 -10px;padding:8px 10px;border-radius:6px;border-bottom:none':'')+'"><span style="color:'+(isToday?'var(--ac)':'var(--tx2)')+';'+(isToday?'font-weight:500':'')+'">'+ h.l+(isToday?' – Heute':'')+'</span><span style="color:var(--tx3)">'+val+'</span></div>';
+      });
+      hrsH+='</div>';
+    }
+  }
+
   // Girls
   let girlH='';
   if(girls.length){
@@ -205,13 +226,20 @@ async function init(){
       return null;
     }).filter(Boolean);
     studioImages=allImgUrls.map(function(u){return {src:u,caption:s.name};});
-    var cls=allImgUrls.length===1?'gal-1':(allImgUrls.length===2?'gal-2':(allImgUrls.length===3?'gal-3':'gal-m'));
-    var show=Math.min(allImgUrls.length,4);
-    galH='<div class="gal '+cls+'" onclick="openStudioGallery(event)">';
-    for(var gi=0;gi<show;gi++){
-      var extra=gi===show-1&&allImgUrls.length>4?' class="gi gal-more" data-idx="'+gi+'" data-more="+'+(allImgUrls.length-3)+'"':' class="gi" data-idx="'+gi+'"';
-      galH+='<img'+extra+' src="'+allImgUrls[gi]+'" alt="">';
+    var isSingle=allImgUrls.length===1;
+    galH='<div class="gal-wrap"><div class="gal'+(isSingle?' gal-single':'')+'" onclick="openStudioGallery(0)">';
+    // Main image
+    galH+='<img class="gi-main" src="'+allImgUrls[0]+'" alt="">';
+    if(!isSingle){
+      // Side images - show up to 3
+      var sideCount=Math.min(allImgUrls.length-1,3);
+      for(var gi=1;gi<=sideCount;gi++){
+        var isLast=gi===sideCount&&allImgUrls.length>4;
+        galH+='<img class="gi-side'+(isLast?' gal-more':'')+'"'+(isLast?' data-more="+'+(allImgUrls.length-sideCount)+'"':'')+' src="'+allImgUrls[gi]+'" alt="">';
+      }
     }
+    galH+='</div>';
+    if(allImgUrls.length>1) galH+='<span class="gal-count">📷 '+allImgUrls.length+' Bilder</span>';
     galH+='</div>';
   }
 
@@ -220,7 +248,7 @@ async function init(){
    (addr?'<div class="dloc rv d1"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg>'+addr+'</div>':'')+
    (upd?'<div class="dup rv d1">Aktualisiert: '+upd+'</div>':'')+
    (tags?'<div class="dtags rv d1">'+tags+'</div>':'')+
-   '<div class="dc"><div class="rv d2">'+desc+svcH+girlH+'</div>'+
+   '<div class="dc"><div class="rv d2">'+desc+svcH+hrsH+girlH+'</div>'+
    '<aside class="rv d2"><div class="dsc"><div class="dsc-h">Kontakt</div><ul class="slist">'+cl+'</ul><div class="sbtns">'+btns+'</div>'+
    '<div class="s-claim"><p>Ist das dein Studio?</p><a href="/register">Profil beanspruchen →</a></div></div></aside></div>';
 
@@ -251,7 +279,7 @@ function navLB(dir){
   document.getElementById('lbCaption').textContent=lbItems[lbIdx].caption||'';
   document.getElementById('lbCounter').textContent=(lbIdx+1)+' / '+lbItems.length;
 }
-function openStudioGallery(e){var idx=parseInt(e.target.getAttribute('data-idx'))||0;openLB(studioImages,idx);}
+function openStudioGallery(idx){openLB(studioImages,idx||0);}
 function openGirlLB(idx){
   gmIdx=idx;renderGM();
   document.getElementById('girlModal').classList.add('open');
