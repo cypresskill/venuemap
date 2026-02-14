@@ -42,13 +42,20 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{positi
 .gcrd{overflow:hidden}.gcrd-img{height:120px;background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}.gcrd-img svg{width:20px;height:20px;stroke:var(--tx3);fill:none;stroke-width:1.2;opacity:.25}.gcrd-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.gcrd-b{padding:10px 12px}.gcrd-n{font-family:var(--fs);font-size:.88rem}.gcrd-d{font-size:.66rem;color:var(--tx3);margin-top:2px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gdp{display:flex;gap:2px;margin-top:8px}.gds{width:20px;height:20px;border-radius:5px;font-size:.5rem;font-weight:600;display:flex;align-items:center;justify-content:center}.gds-on{background:var(--acl);color:var(--ac);border:1px solid rgba(200,146,106,.25)}.gds-today{background:var(--ac);color:var(--bg)}.gds-off{background:rgba(255,255,255,.03);color:var(--tx3);border:1px solid var(--bdr)}
 footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}@media(min-width:768px){.foot{flex-direction:row;justify-content:space-between}}.foot-l{display:flex;gap:18px;font-size:.74rem;color:var(--tx3)}.foot-l a:hover{color:var(--tx2)}.foot-18{font-size:.62rem;color:var(--tx3);opacity:.35}
-.gal{display:grid;gap:4px;margin:16px 0 24px;border-radius:var(--r);overflow:hidden}
+.gal{display:grid;gap:4px;margin:16px 0 24px;border-radius:var(--r);overflow:hidden;cursor:pointer}
 .gal-1{grid-template-columns:1fr}.gal-1 .gi{height:380px}
 .gal-2{grid-template-columns:5fr 3fr}.gal-2 .gi{height:320px}
-.gal-3{grid-template-columns:5fr 3fr;grid-template-rows:160px 160px}.gal-3 .gi:first-child{grid-row:1/3;height:auto}
-.gal-m{grid-template-columns:5fr 2fr 2fr;grid-template-rows:160px 160px}.gal-m .gi:first-child{grid-row:1/3;height:auto}
-.gi{width:100%;object-fit:cover;display:block;background:var(--bg3);height:160px}
-.gal-more{position:relative;cursor:pointer}.gal-more::after{content:attr(data-more);position:absolute;inset:0;background:rgba(9,8,13,.55);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;color:#fff}
+.gal-3{grid-template-columns:5fr 3fr;grid-template-rows:158px 158px}.gal-3 .gi:first-child{grid-row:1/3;height:auto}
+.gal-m{grid-template-columns:5fr 2fr 2fr;grid-template-rows:158px 158px}.gal-m .gi:first-child{grid-row:1/3;height:auto}
+.gi{width:100%;object-fit:cover;display:block;background:var(--bg3)}
+.gal-more{position:relative}.gal-more::after{content:attr(data-more);position:absolute;inset:0;background:rgba(9,8,13,.55);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;color:#fff}
+.lb{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column}.lb.open{display:flex}
+.lb-img{max-width:92vw;max-height:80vh;object-fit:contain;border-radius:8px;user-select:none;-webkit-user-select:none}
+.lb-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;backdrop-filter:blur(8px)}.lb-nav:hover{background:rgba(255,255,255,.2)}
+.lb-prev{left:12px}.lb-next{right:12px}
+.lb-counter{position:absolute;bottom:20px;color:rgba(255,255,255,.5);font-size:.76rem;font-weight:500}
+.lb-caption{color:rgba(255,255,255,.7);font-size:.84rem;margin-top:12px;font-weight:300}
 </style>
 </head>
 <body>
@@ -60,6 +67,14 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
   <div class="bread rv"><a href="/">Home</a><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg><a href="#" id="breadCity">…</a><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg><span id="breadStudio">…</span></div>
   <div id="pageContent"><p style="text-align:center;padding:60px 0;color:var(--tx3)">Lade Studio…</p></div>
 </div></section>
+<div class="lb" id="lightbox" onclick="if(event.target===this)closeLB()">
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <button class="lb-nav lb-prev" onclick="navLB(-1)">‹</button>
+  <button class="lb-nav lb-next" onclick="navLB(1)">›</button>
+  <img class="lb-img" id="lbImg" src="">
+  <div class="lb-caption" id="lbCaption"></div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
 <footer><div class="ctn foot"><div class="foot-l"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div><span class="foot-18">Nur für Personen ab 18 Jahren.</span></div></footer>
 </div>
 <nav class="bnav"><div class="bnav-i"><a href="/" class="bna"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Städte</a><a href="/alle-studios" class="bna"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Studios</a><a href="#" class="bna"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Login</a></div></nav>
@@ -117,9 +132,9 @@ async function init(){
 
   // Buttons
   let btns='';
-  if(s.telefon)btns+='<a href="tel:'+s.telefon.replace(/\s/g,'')+'" class="btn"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg>Anrufen</a>';
-  if(s.whatsapp){const n=s.whatsapp.replace(/[^0-9]/g,'');btns+='<a href="https://wa.me/'+n+'" target="_blank" class="btn-g"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8"/></svg>WhatsApp</a>';}
-  if(s.telegram)btns+='<a href="https://t.me/'+s.telegram.replace('@','')+'" target="_blank" class="btn-g"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/></svg>Telegram</a>';
+  if(s.telefon)btns+='<a href="tel:'+s.telefon.replace(/\s/g,'')+'" class="btn">📞 Anrufen</a>';
+  if(s.whatsapp){const n=s.whatsapp.replace(/[^0-9]/g,'');btns+='<a href="https://wa.me/'+n+'" target="_blank" class="btn-g">💬 WhatsApp</a>';}
+  if(s.telegram)btns+='<a href="https://t.me/'+s.telegram.replace('@','')+'" target="_blank" class="btn-g">✈ Telegram</a>';
 
   // Description
   let desc='';
@@ -134,14 +149,18 @@ async function init(){
   let girlH='';
   if(girls.length){
    girlH='<div class="dsub" style="margin-top:28px;padding-top:24px;border-top:1px solid var(--bdr)">Heute anwesend</div><div class="gc">';
-   girls.forEach(function(g){
+   var girlData=[];
+   girls.forEach(function(g,gIdx){
     var dp=DSH.map(function(d,i){
      var on=g[DAYS[i]];
      var cls=i===TODAY&&on?'gds gds-today':(on?'gds gds-on':'gds gds-off');
      return '<span class="'+cls+'">'+d+'</span>';
     }).join('');
-    girlH+='<div class="glass gcrd"><div class="gcrd-img">'+(g.bild_path?'<img src="https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/'+g.bild_path+'" alt="'+g.name+'">':'<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>')+'</div><div class="gcrd-b"><div class="gcrd-n">'+g.name+'</div>'+(g.beschreibung?'<div class="gcrd-d">'+g.beschreibung+'</div>':'')+'<div class="gdp">'+dp+'</div></div></div>';
+    var gImg=g.bild_path?'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/'+g.bild_path:'';
+    girlData.push({src:gImg,caption:g.name+(g.beschreibung?' – '+g.beschreibung:'')});
+    girlH+='<div class="glass gcrd" style="cursor:pointer" onclick="openGirlLB('+gIdx+')"><div class="gcrd-img">'+(gImg?'<img src="'+gImg+'" alt="'+g.name+'">':'<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>')+'</div><div class="gcrd-b"><div class="gcrd-n">'+g.name+'</div>'+(g.beschreibung?'<div class="gcrd-d">'+g.beschreibung+'</div>':'')+'<div class="gdp">'+dp+'</div></div></div>';
    });
+   girlImages=girlData;
    girlH+='</div>';
   }
 
@@ -149,20 +168,21 @@ async function init(){
   var upd=s.updated_at?new Date(s.updated_at).toLocaleDateString('de-CH',{month:'long',year:'numeric'}):'';
 
   // Render
-  // Gallery
   var galH='';
+  var allImgUrls=[];
   if(bilder.length){
-    var urls=bilder.map(function(b){
+    allImgUrls=bilder.map(function(b){
       if(b.url && b.url.startsWith('http')) return b.url;
       if(b.storage_path) return 'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/studio-bilder/'+b.storage_path;
       return null;
     }).filter(Boolean);
-    var cls=urls.length===1?'gal-1':(urls.length===2?'gal-2':(urls.length===3?'gal-3':'gal-m'));
-    var show=Math.min(urls.length,4);
-    galH='<div class="gal '+cls+' rv">';
+    studioImages=allImgUrls.map(function(u){return {src:u,caption:s.name};});
+    var cls=allImgUrls.length===1?'gal-1':(allImgUrls.length===2?'gal-2':(allImgUrls.length===3?'gal-3':'gal-m'));
+    var show=Math.min(allImgUrls.length,4);
+    galH='<div class="gal '+cls+'" onclick="openStudioGallery(event)">';
     for(var gi=0;gi<show;gi++){
-      var extra='';if(gi===show-1&&urls.length>4)extra=' class="gi gal-more" data-more="+'+( urls.length-3)+'"';else extra=' class="gi"';
-      galH+='<img'+extra+' src="'+urls[gi]+'" alt="Studio Bild">';
+      var extra=gi===show-1&&allImgUrls.length>4?' class="gi gal-more" data-idx="'+gi+'" data-more="+'+(allImgUrls.length-3)+'"':' class="gi" data-idx="'+gi+'"';
+      galH+='<img'+extra+' src="'+allImgUrls[gi]+'" alt="">';
     }
     galH+='</div>';
   }
@@ -184,8 +204,37 @@ async function init(){
 }
 
 function shareS(){navigator.clipboard.writeText(location.href).then(function(){var t=document.getElementById('shareTip');t.classList.add('show');setTimeout(function(){t.classList.remove('show')},1500)});}
+// Lightbox
+var lbItems=[],lbIdx=0;
+var studioImages=[];var girlImages=[];
+function openLB(items,idx){
+  lbItems=items.filter(function(i){return i.src;});if(!lbItems.length)return;
+  lbIdx=Math.min(idx||0,lbItems.length-1);
+  document.getElementById('lbImg').src=lbItems[lbIdx].src;
+  document.getElementById('lbCaption').textContent=lbItems[lbIdx].caption||'';
+  document.getElementById('lbCounter').textContent=(lbIdx+1)+' / '+lbItems.length;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+function navLB(dir){
+  lbIdx=(lbIdx+dir+lbItems.length)%lbItems.length;
+  document.getElementById('lbImg').src=lbItems[lbIdx].src;
+  document.getElementById('lbCaption').textContent=lbItems[lbIdx].caption||'';
+  document.getElementById('lbCounter').textContent=(lbIdx+1)+' / '+lbItems.length;
+}
+function openStudioGallery(e){var idx=parseInt(e.target.getAttribute('data-idx'))||0;openLB(studioImages,idx);}
+function openGirlLB(idx){openLB(girlImages,idx);}
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('lightbox').classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')navLB(1);if(e.key==='ArrowLeft')navLB(-1);
+});
+// Touch swipe
+var lbTouchX=0;
+document.getElementById('lightbox').addEventListener('touchstart',function(e){lbTouchX=e.touches[0].clientX;},{passive:true});
+document.getElementById('lightbox').addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-lbTouchX;if(Math.abs(dx)>50){navLB(dx<0?1:-1);}},{passive:true});
+
 document.querySelectorAll('.rv').forEach(function(el){new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.08}).observe(el);});
-window.addEventListener('scroll',function(){var s=scrollY;document.querySelectorAll('.bg-orb').forEach(function(o,i){o.style.transform='translateY('+s*(.02+i*.008)+'px)';});},{passive:true});
 init();
 </script>
 </body>
