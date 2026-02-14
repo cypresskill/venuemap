@@ -218,7 +218,7 @@ function studioCard(s){
   const sb={'draft':'<span class="badge badge-draft">Entwurf</span>','pending':'<span class="badge badge-pending">In Prüfung</span>','approved':'<span class="badge badge-approved">Freigegeben</span>','rejected':'<span class="badge badge-rejected">Abgelehnt</span>'}[s.status]||'';
   const ex=[s.is_pro?'<span class="badge badge-pro">Pro</span>':'',s.is_claimed?'<span class="badge badge-claimed">Claimed</span>':'',s.is_verified?'<span class="badge badge-approved">✓</span>':''].filter(Boolean).join(' ');
   const kat=s.kategorien?s.kategorien.name:'–',city=s.staedte?s.staedte.name:'–',kanton=s.kantone?s.kantone.name:'–',date=new Date(s.created_at).toLocaleDateString('de-CH');
-  return '<div class="card"><div class="card-h"><div class="card-title">'+s.name+' '+sb+' '+ex+'</div></div><div class="card-meta"><span>'+kat+'</span><span>'+city+', '+kanton+'</span><span>'+date+'</span></div><div class="card-actions"><button class="btn-sm btn-edit" onclick="openEdit(\''+s.id+'\')">Bearbeiten</button>'+(s.status!=='approved'?'<button class="btn-sm btn-approve" onclick="setStatus(\''+s.id+'\',\'approved\')">Freigeben</button>':'')+(s.status!=='rejected'?'<button class="btn-sm btn-reject" onclick="setStatus(\''+s.id+'\',\'rejected\')">Ablehnen</button>':'')+'</div></div>';
+  return '<div class="card"><div class="card-h"><div class="card-title">'+s.name+' '+sb+' '+ex+'</div></div><div class="card-meta"><span>'+kat+'</span><span>'+city+', '+kanton+'</span><span>'+date+'</span></div><div class="card-actions"><button class="btn-sm btn-edit" onclick="openEdit(\''+s.id+'\')">Bearbeiten</button>'+(s.status!=='approved'?'<button class="btn-sm btn-approve" onclick="setStatus(\''+s.id+'\',\'approved\')">Freigeben</button>':'')+(s.status!=='rejected'?'<button class="btn-sm btn-reject" onclick="setStatus(\''+s.id+'\',\'rejected\')">Ablehnen</button>':'')+'<button class="btn-sm" style="background:rgba(200,80,80,.15);color:#C85050;border:1px solid rgba(200,80,80,.2)" onclick="deleteStudio(\''+s.id+'\',\''+s.name.replace(/'/g,"\\'")+'\')">Löschen</button></div></div>';
 }
 function renderStudios(){
   // Populate filter dropdowns
@@ -263,6 +263,18 @@ async function quickAdd(){
   }catch(e){errEl.textContent=e.message.includes('idx_studios_name_kanton')?'Studio existiert bereits in diesem Kanton!':e.message;errEl.style.display='block';}
 }
 async function setStatus(id,status){try{const body={status};if(status==='approved')body.is_verified=true;await api('studios?id=eq.'+id,{method:'PATCH',body});await loadData();}catch(e){alert(e.message);}}
+async function deleteStudio(id,name){
+  if(!confirm('Studio "'+name+'" wirklich löschen?\n\nDas löscht auch alle Girls, Bilder und Services dieses Studios.\n\nDiese Aktion kann nicht rückgängig gemacht werden!'))return;
+  if(!confirm('Bist du sicher? Letzte Warnung!'))return;
+  try{
+    // Delete related data first (cascade should handle it but be safe)
+    await api('girls?studio_id=eq.'+id,{method:'DELETE'});
+    await api('studio_bilder?studio_id=eq.'+id,{method:'DELETE'});
+    await api('studio_services?studio_id=eq.'+id,{method:'DELETE'});
+    await api('studios?id=eq.'+id,{method:'DELETE'});
+    await loadData();
+  }catch(e){alert('Fehler beim Löschen: '+e.message);}
+}
 
 // === EDIT MODAL ===
 function showMTab(name,btn){document.querySelectorAll('.mpane').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));document.getElementById('mp-'+name).classList.add('active');btn.classList.add('active');}
@@ -376,8 +388,15 @@ async function loadGirls(studioId){
       const days=['Mo','Di','Mi','Do','Fr','Sa','So'];const dkeys=['montag','dienstag','mittwoch','donnerstag','freitag','samstag','sonntag'];
       const dayBtns=days.map((d,i)=>'<div class="gday'+(g[dkeys[i]]?' on':'')+'" onclick="toggleGirlDay(\''+g.id+'\',\''+dkeys[i]+'\',this)">'+d+'</div>').join('');
       const imgUrl=g.bild_path?'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/'+g.bild_path:'';
-      const imgHtml=imgUrl?'<img src="'+imgUrl+'" style="width:70px;height:90px;border-radius:8px;object-fit:cover;object-position:center top;border:1px solid var(--bdr);cursor:pointer" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()">':'<div class="img-slot" style="width:70px;height:90px;min-height:0;aspect-ratio:auto" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()"><span style="font-size:.8rem">+</span><span>Foto</span></div>';
-      var h='<div class="girl-card" id="gc_'+g.id+'"><div style="display:flex;gap:12px;align-items:flex-start"><div style="flex-shrink:0">'+imgHtml+'<input type="file" id="girlImg_'+g.id+'" accept="image/*" style="display:none" onchange="uploadGirlPhoto(\''+g.id+'\',this.files[0])"></div><div style="flex:1">';
+      // Photo strip: main photo + slots for up to 5
+      var photoH='<div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">';
+      photoH+=imgUrl?'<img src="'+imgUrl+'" style="width:70px;height:90px;border-radius:8px;object-fit:cover;object-position:center top;border:1px solid var(--bdr);cursor:pointer" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()">':'<div class="img-slot" style="width:70px;height:90px;min-height:0;aspect-ratio:auto" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()"><span style="font-size:.8rem">+</span><span>Foto</span></div>';
+      photoH+='<input type="file" id="girlImg_'+g.id+'" accept="image/*" style="display:none" onchange="uploadGirlPhoto(\''+g.id+'\',this.files[0])">';
+      photoH+='<div id="girlPhotos_'+g.id+'" style="display:flex;gap:2px;flex-wrap:wrap"></div>';
+      photoH+='<button style="width:70px;height:22px;border-radius:4px;border:1px dashed var(--bdr);background:none;color:var(--tx3);font-size:.56rem;cursor:pointer" onclick="document.getElementById(\'girlImgExtra_'+g.id+'\').click()">+ Foto</button>';
+      photoH+='<input type="file" id="girlImgExtra_'+g.id+'" accept="image/*" style="display:none" onchange="uploadExtraGirlPhoto(\''+g.id+'\',this.files[0])">';
+      photoH+='</div>';
+      var h='<div class="girl-card" id="gc_'+g.id+'"><div style="display:flex;gap:12px;align-items:flex-start">'+photoH+'<div style="flex:1">';
       h+='<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center"><input type="text" value="'+(g.name||'')+'" id="gn_'+g.id+'" style="flex:1;height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.84rem;color:var(--tx);outline:none;font-weight:500">';
       h+='<a href="/girl.html?id='+g.id+'" target="_blank" style="font-size:.6rem;color:var(--ac);white-space:nowrap">↗</a>';
       h+='<button class="btn-sm btn-edit" onclick="saveGirl(\''+g.id+'\')">✓</button><button class="btn-sm btn-reject" onclick="deleteGirl(\''+g.id+'\')">✕</button></div>';
@@ -397,7 +416,20 @@ async function loadGirls(studioId){
       h+='<div class="girl-days" style="margin-top:6px">'+dayBtns+'</div></div></div></div>';
       return h;
     }).join('');
-    girls.forEach(async function(g){try{var gt=await api('girl_tag_zuordnung?girl_id=eq.'+g.id+'&select=girl_tags(name)');var el=document.getElementById('gtags_'+g.id);if(el&&gt.length)el.textContent=gt.map(t=>t.girl_tags.name).join(', ');}catch(e){}});
+    girls.forEach(async function(g){
+      try{var gt=await api('girl_tag_zuordnung?girl_id=eq.'+g.id+'&select=girl_tags(name)');var el=document.getElementById('gtags_'+g.id);if(el&&gt.length)el.textContent=gt.map(t=>t.girl_tags.name).join(', ');}catch(e){}
+      // Load extra photos
+      try{
+        var photos=await api('girl_bilder?girl_id=eq.'+g.id+'&order=sort_order');
+        var container=document.getElementById('girlPhotos_'+g.id);
+        if(container&&photos.length){
+          container.innerHTML=photos.map(function(p){
+            var url=p.url&&p.url.startsWith('http')?p.url:(p.storage_path?'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/'+p.storage_path:'');
+            return '<div style="position:relative"><img src="'+url+'" style="width:32px;height:32px;border-radius:4px;object-fit:cover;object-position:center top;border:1px solid var(--bdr)"><button onclick="deleteGirlPhoto(\''+p.id+'\')" style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:rgba(200,80,80,.9);border:none;color:#fff;font-size:.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button></div>';
+          }).join('');
+        }
+      }catch(e){}
+    });
   }catch(e){box.innerHTML='<div style="color:var(--red);font-size:.76rem">'+e.message+'</div>';}
 }
 async function openTagEditor(girlId){
@@ -460,6 +492,25 @@ async function uploadGirlPhoto(girlId,file){
   if(!r.ok){var e=await r.json().catch(function(){return {};});throw new Error(e.message||r.statusText);}
   await api('girls?id=eq.'+girlId,{method:'PATCH',body:{bild_path:path}});loadGirls(currentEditId);
   }catch(e){alert('Foto-Upload fehlgeschlagen: '+e.message);}
+}
+async function uploadExtraGirlPhoto(girlId,file){
+  if(!file)return;if(file.size>5*1024*1024){alert('Bild zu gross (max 5MB)');return;}
+  try{
+    // Check count
+    var existing=await api('girl_bilder?girl_id=eq.'+girlId);
+    if(existing.length>=5){alert('Maximal 5 zusätzliche Fotos pro Girl.');return;}
+    var ext=file.name.split('.').pop().toLowerCase();
+    var ts=Date.now();
+    var path=currentEditId+'/'+girlId+'_'+ts+'.'+ext;
+    var r=await fetch(SUPABASE_URL+'/storage/v1/object/girl-bilder/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type},body:file});
+    if(!r.ok){var e=await r.json().catch(function(){return {};});throw new Error(e.message||r.statusText);}
+    await api('girl_bilder',{method:'POST',body:{girl_id:girlId,storage_path:path,sort_order:existing.length+1}});
+    loadGirls(currentEditId);
+  }catch(e){alert('Foto-Upload fehlgeschlagen: '+e.message);}
+}
+async function deleteGirlPhoto(photoId){
+  if(!confirm('Foto löschen?'))return;
+  try{await api('girl_bilder?id=eq.'+photoId,{method:'DELETE'});loadGirls(currentEditId);}catch(e){alert(e.message);}
 }
 async function toggleGirlDay(girlId,day,el){
   const isOn=el.classList.contains('on');try{const body={};body[day]=!isOn;await api('girls?id=eq.'+girlId,{method:'PATCH',body});el.classList.toggle('on');}catch(e){alert(e.message);}
