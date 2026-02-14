@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Girl – VenueMap.ch</title>
+<meta name="description" content="Girl-Profil auf VenueMap.ch">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#09080D">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="VenueMap.ch">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09080D;--bg2:#0F0E16;--bg3:#161520;--sf:rgba(22,21,32,.7);--sf2:rgba(30,29,42,.9);--bdr:rgba(255,255,255,.06);--bdr2:rgba(255,255,255,.1);--tx:#F4F2F7;--tx2:#9B97A8;--tx3:#5E5A6E;--ac:#C8926A;--ac2:#DDAA82;--ac3:#E8BE9A;--acl:rgba(200,146,106,.08);--ach:rgba(200,146,106,.15);--grn:#6BAD8E;--red:#C86A6A;--f:'Inter',system-ui,sans-serif;--fs:'Playfair Display',Georgia,serif;--r:14px;--rs:8px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--f);background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit;text-decoration:none}button{font-family:var(--f);cursor:pointer}.ctn{max-width:1100px;margin:0 auto;padding:0 20px}@media(min-width:768px){.ctn{padding:0 40px}}
+.bg-mesh{position:fixed;inset:0;z-index:0;overflow:hidden}.bg-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.1;animation:orbF 28s ease-in-out infinite}.o1{width:600px;height:600px;background:radial-gradient(circle,#C8926A,transparent 70%);top:-15%;right:-10%}.o2{width:400px;height:400px;background:radial-gradient(circle,#6B5EC8,transparent 70%);bottom:-10%;left:-8%;animation-delay:-8s}@keyframes orbF{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+.bg-grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+.pg{position:relative;z-index:2}@media(max-width:767px){.pg{padding-bottom:62px}}
+.glass{background:var(--sf);backdrop-filter:blur(16px);border:1px solid var(--bdr);border-radius:var(--r)}.glass:hover{border-color:var(--bdr2)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}.rv.v{opacity:1;transform:none}.d1{transition-delay:.08s}.d2{transition-delay:.16s}
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{position:absolute;inset:0;background:rgba(9,8,13,.5);backdrop-filter:blur(30px)saturate(1.4);border-bottom:1px solid var(--bdr)}.hdi{max-width:1100px;margin:0 auto;padding:0 20px;height:100%;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}@media(min-width:768px){.hdi{padding:0 40px}}.logo{font-family:var(--fs);font-size:1.15rem;font-weight:500;display:flex;align-items:center;gap:8px}.logo-m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--ac),#A07050);display:flex;align-items:center;justify-content:center}.logo-m svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2}.back{font-size:.82rem;color:var(--tx3);display:flex;align-items:center;gap:5px;transition:color .2s}.back:hover{color:var(--tx2)}.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* Girl Profile Layout */
+.gp{padding:80px 0 60px}
+.gp-top{display:grid;gap:24px}@media(min-width:768px){.gp-top{grid-template-columns:380px 1fr;gap:32px}}
+.gp-photos{position:relative}
+.gp-main-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;border-radius:var(--r);background:var(--bg3);display:block}
+.gp-thumbs{display:flex;gap:4px;margin-top:4px;overflow-x:auto}.gp-thumbs::-webkit-scrollbar{display:none}
+.gp-thumb{width:64px;height:64px;border-radius:var(--rs);object-fit:cover;object-position:center top;cursor:pointer;border:2px solid transparent;flex-shrink:0;background:var(--bg3);opacity:.6;transition:all .2s}.gp-thumb:hover,.gp-thumb.active{opacity:1;border-color:var(--ac)}
+.gp-count{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);padding:4px 10px;border-radius:6px;font-size:.64rem;font-weight:600;color:#fff}
+.gp-nav{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}.gp-nav:hover{background:rgba(0,0,0,.7)}.gp-prev{left:8px}.gp-next{right:8px}
+
+/* Girl Info */
+.gp-info{padding-top:4px}
+.gp-name{font-family:var(--fs);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;letter-spacing:-.02em;margin-bottom:4px}
+.gp-motto{font-size:.88rem;color:var(--tx2);font-weight:300;font-style:italic;margin-bottom:16px;line-height:1.5}
+.gp-avail{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:8px;font-size:.72rem;font-weight:600;margin-bottom:16px}
+.gp-avail.on{background:rgba(107,173,142,.1);color:var(--grn);border:1px solid rgba(107,173,142,.2)}
+.gp-avail.off{background:rgba(200,106,106,.08);color:var(--red);border:1px solid rgba(200,106,106,.15)}
+.gp-avail-dot{width:6px;height:6px;border-radius:50%}.gp-avail.on .gp-avail-dot{background:var(--grn);box-shadow:0 0 6px var(--grn)}.gp-avail.off .gp-avail-dot{background:var(--red)}
+
+/* Tags */
+.gp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.gp-tag{font-size:.66rem;font-weight:500;padding:4px 12px;border-radius:6px;background:var(--acl);border:1px solid rgba(200,146,106,.12);color:var(--ac)}
+.gp-tag.hl{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);border:none;font-weight:600}
+
+/* Stats Grid */
+.gp-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:20px}
+.gp-stat{padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid var(--bdr);border-radius:var(--rs)}.gp-stat-l{font-size:.56rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;font-weight:600;margin-bottom:2px}.gp-stat-v{font-size:.82rem;color:var(--tx)}
+
+/* Beschreibung */
+.gp-desc{font-size:.86rem;line-height:1.7;color:var(--tx2);font-weight:300;margin-bottom:20px}
+
+/* Schedule */
+.gp-sched{display:flex;gap:5px;margin-bottom:20px;flex-wrap:wrap}
+.gp-day{width:40px;height:36px;border-radius:7px;font-size:.62rem;font-weight:600;display:flex;align-items:center;justify-content:center;border:1px solid var(--bdr);color:var(--tx3);background:rgba(255,255,255,.02)}
+.gp-day.on{background:var(--acl);border-color:rgba(200,146,106,.2);color:var(--ac)}
+.gp-day.today{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+
+/* Contact buttons */
+.gp-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.gp-btn{height:44px;padding:0 20px;border-radius:10px;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.gp-btn-p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);border:none}.gp-btn-p:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,146,106,.3)}
+.gp-btn-s{background:rgba(255,255,255,.04);color:var(--tx2);border:1px solid var(--bdr)}.gp-btn-s:hover{border-color:var(--ac);color:var(--ac)}
+
+/* Preis */
+.gp-preis{font-size:.78rem;color:var(--tx3);margin-bottom:18px;padding:10px 14px;background:rgba(255,255,255,.02);border:1px solid var(--bdr);border-radius:var(--rs);display:inline-block}
+
+/* Studio Box */
+.gp-studio{margin-top:32px;padding:20px;border-radius:var(--r)}
+.gp-studio-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.gp-studio-img{width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--bg3)}
+.gp-studio-n{font-family:var(--fs);font-size:1rem}.gp-studio-loc{font-size:.72rem;color:var(--tx3);display:flex;align-items:center;gap:4px;margin-top:2px}
+.gp-studio-loc svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2}
+.gp-studio-link{font-size:.76rem;color:var(--ac);font-weight:500;display:inline-flex;align-items:center;gap:4px;margin-top:8px}.gp-studio-link:hover{text-decoration:underline}
+
+/* Other Girls Section */
+.gp-others{padding:40px 0 60px}
+.gp-others-title{font-family:var(--fs);font-size:1.1rem;font-weight:400;margin-bottom:18px}
+.gp-others-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.gp-oc{display:block;overflow:hidden;border-radius:var(--r);transition:all .2s}.gp-oc:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.gp-oc-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;background:var(--bg3);display:block}
+.gp-oc-b{padding:10px 12px}
+.gp-oc-n{font-size:.82rem;font-weight:500}.gp-oc-avail{font-size:.6rem;color:var(--grn);margin-top:2px}
+
+/* Lightbox */
+.lb{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column}.lb.open{display:flex}
+.lb-img{max-width:92vw;max-height:85vh;object-fit:contain;border-radius:8px;user-select:none}
+.lb-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}.lb-prev{left:12px}.lb-next{right:12px}
+.lb-counter{position:absolute;bottom:20px;color:rgba(255,255,255,.5);font-size:.76rem}
+
+footer{padding:40px 0;border-top:1px solid var(--bdr)}.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}.foot-l{display:flex;gap:16px}.foot-l a{font-size:.72rem;color:var(--tx3);transition:color .2s}.foot-l a:hover{color:var(--tx2)}.foot-18{font-size:.6rem;color:var(--tx3);opacity:.5}
+</style>
+</head>
+<body>
+<div id="ag" style="position:fixed;inset:0;z-index:9999;background:rgba(9,8,13,.92);backdrop-filter:blur(32px);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .5s,visibility .5s"><div style="background:rgba(30,29,42,.9);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:48px 36px;max-width:380px;width:100%;text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:rgba(200,146,106,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.2rem;font-weight:600;color:var(--ac)">18+</div><h2 style="font-family:var(--fs);font-size:1.3rem;font-weight:400;margin-bottom:6px">Altersbestätigung</h2><p style="font-size:.82rem;color:var(--tx2);line-height:1.6;margin-bottom:26px">Diese Webseite enthält Inhalte für Erwachsene.</p><button onclick="localStorage.setItem('vm18','1');this.closest('#ag').style.opacity='0';this.closest('#ag').style.pointerEvents='none';document.body.style.overflow=''" style="width:100%;height:50px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--ac),#DDAA82);color:var(--bg);font-size:.86rem;font-weight:600;cursor:pointer;font-family:var(--f)">Ich bin 18 oder älter</button><button onclick="window.location='https://www.google.com'" style="width:100%;height:44px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:transparent;color:var(--tx3);font-size:.82rem;cursor:pointer;margin-top:8px;font-family:var(--f)">Seite verlassen</button></div></div>
+<script>if(localStorage.getItem('vm18')){document.getElementById('ag').style.display='none'}else{document.body.style.overflow='hidden'}</script>
+<div class="bg-mesh"><div class="bg-orb o1"></div><div class="bg-orb o2"></div></div><div class="bg-grain"></div>
+<div class="pg">
+<header><div class="hd-bg"></div><div class="hdi"><a href="/" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg></div>VenueMap</a><a href="javascript:history.back()" class="back"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zurück</a></div></header>
+
+<section class="gp"><div class="ctn">
+  <div id="content"><div style="text-align:center;padding:80px 20px;color:var(--tx3)">Lade Profil…</div></div>
+</div></section>
+
+<section class="gp-others" id="othersSection" style="display:none"><div class="ctn">
+  <div class="gp-others-title" id="othersTitle"></div>
+  <div class="gp-others-grid" id="othersGrid"></div>
+</div></section>
+
+<div class="lb" id="lightbox" onclick="if(event.target===this)closeLB()">
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <button class="lb-nav lb-prev" onclick="navLB(-1)">‹</button>
+  <button class="lb-nav lb-next" onclick="navLB(1)">›</button>
+  <img class="lb-img" id="lbImg" src="">
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<footer><div class="ctn foot"><div class="foot-l"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div><span class="foot-18">18+ | VenueMap.ch</span></div></footer>
+</div>
+
+<script>
+const SB='https://undrlwlxcsrayldbxepd.supabase.co/rest/v1/';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZHJsd2x4Y3NyYXlsZGJ4ZXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTkyMDMsImV4cCI6MjA4NjU3NTIwM30.7-U3lFqu5jyrg-CeQwQyJrUmZflC3PqmhytSfRk7KbI';
+const GIRL_ST='https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/';
+const STUDIO_ST='https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/studio-bilder/';
+async function q(p){const r=await fetch(SB+p,{headers:{'apikey':KEY}});return r.json();}
+
+const DAYS=['sonntag','montag','dienstag','mittwoch','donnerstag','freitag','samstag'];
+const DSH=['So','Mo','Di','Mi','Do','Fr','Sa'];
+const TODAY=new Date().getDay();
+
+// Lightbox
+var lbItems=[],lbIdx=0;
+function openLB(items,idx){lbItems=items;lbIdx=idx||0;showLB();document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+function navLB(d){lbIdx=(lbIdx+d+lbItems.length)%lbItems.length;showLB();}
+function showLB(){document.getElementById('lbImg').src=lbItems[lbIdx];document.getElementById('lbCounter').textContent=(lbIdx+1)+' / '+lbItems.length;}
+document.addEventListener('keydown',function(e){if(!document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')navLB(1);if(e.key==='ArrowLeft')navLB(-1);});
+var lbTX=0;document.getElementById('lightbox').addEventListener('touchstart',function(e){lbTX=e.touches[0].clientX},{passive:true});
+document.getElementById('lightbox').addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-lbTX;if(Math.abs(dx)>50)navLB(dx<0?1:-1);},{passive:true});
+
+var allPhotos=[];
+function setMainPhoto(idx){
+  document.querySelector('.gp-main-img').src=allPhotos[idx];
+  document.querySelectorAll('.gp-thumb').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+}
+
+async function init(){
+  var params=new URLSearchParams(location.search);
+  var gid=params.get('id');
+  if(!gid){document.getElementById('content').innerHTML='<div style="text-align:center;padding:80px;color:var(--red)">Kein Girl angegeben.</div>';return;}
+
+  try{
+    // Fetch girl with studio info + tags + extra photos
+    var [girl, tags, photos] = await Promise.all([
+      q('girls?id=eq.'+gid+'&select=*,studios(id,name,adresse,telefon,whatsapp,telegram,staedte(name),kategorien(name),studio_bilder(url,storage_path))'),
+      q('girl_tag_zuordnung?girl_id=eq.'+gid+'&select=girl_tags(name,gruppe)'),
+      q('girl_bilder?girl_id=eq.'+gid+'&order=sort_order')
+    ]);
+
+    if(!girl||!girl.length){document.getElementById('content').innerHTML='<div style="text-align:center;padding:80px;color:var(--red)">Girl nicht gefunden.</div>';return;}
+    var g=girl[0];
+    var s=g.studios||{};
+
+    document.title=g.name+' – VenueMap.ch';
+
+    // Build photo array: bild_path first, then girl_bilder
+    allPhotos=[];
+    if(g.bild_path) allPhotos.push(GIRL_ST+g.bild_path);
+    if(photos&&photos.length){
+      photos.forEach(function(p){
+        var url=p.url&&p.url.startsWith('http')?p.url:(p.storage_path?GIRL_ST+p.storage_path:'');
+        if(url&&allPhotos.indexOf(url)===-1) allPhotos.push(url);
+      });
+    }
+    if(!allPhotos.length) allPhotos.push(''); // placeholder
+
+    // Main photo
+    var photoH='<div class="gp-photos">';
+    photoH+='<img class="gp-main-img" src="'+(allPhotos[0]||'')+'" alt="'+g.name+'" onclick="openLB(allPhotos,0)">';
+    if(allPhotos.length>1){
+      photoH+='<button class="gp-nav gp-prev" onclick="var c=document.querySelector(\'.gp-thumb.active\');var i=Array.from(document.querySelectorAll(\'.gp-thumb\')).indexOf(c);setMainPhoto((i-1+allPhotos.length)%allPhotos.length)">‹</button>';
+      photoH+='<button class="gp-nav gp-next" onclick="var c=document.querySelector(\'.gp-thumb.active\');var i=Array.from(document.querySelectorAll(\'.gp-thumb\')).indexOf(c);setMainPhoto((i+1)%allPhotos.length)">›</button>';
+      photoH+='<span class="gp-count">'+allPhotos.length+' Fotos</span>';
+      photoH+='<div class="gp-thumbs">';
+      allPhotos.forEach(function(u,i){
+        photoH+='<img class="gp-thumb'+(i===0?' active':'')+'" src="'+u+'" onclick="setMainPhoto('+i+')" alt="">';
+      });
+      photoH+='</div>';
+    }
+    photoH+='</div>';
+
+    // Availability
+    var isToday=g[DAYS[TODAY]];
+    var availH='<div class="gp-avail '+(isToday?'on':'off')+'"><span class="gp-avail-dot"></span>'+(isToday?'Heute verfügbar':'Heute nicht verfügbar')+'</div>';
+
+    // Tags
+    var tagH='';
+    if(tags&&tags.length){
+      tagH='<div class="gp-tags">';
+      tags.forEach(function(t){
+        if(!t.girl_tags)return;
+        var isHL=t.girl_tags.gruppe==='Highlight';
+        tagH+='<span class="gp-tag'+(isHL?' hl':'')+'">'+t.girl_tags.name+'</span>';
+      });
+      tagH+='</div>';
+    }
+
+    // Stats
+    var statsH='<div class="gp-stats">';
+    if(g.alter_jahre) statsH+='<div class="gp-stat"><div class="gp-stat-l">Alter</div><div class="gp-stat-v">'+g.alter_jahre+' Jahre</div></div>';
+    if(g.nationalitaet) statsH+='<div class="gp-stat"><div class="gp-stat-l">Herkunft</div><div class="gp-stat-v">'+g.nationalitaet+'</div></div>';
+    if(g.groesse) statsH+='<div class="gp-stat"><div class="gp-stat-l">Grösse</div><div class="gp-stat-v">'+g.groesse+' cm</div></div>';
+    if(g.haarfarbe) statsH+='<div class="gp-stat"><div class="gp-stat-l">Haare</div><div class="gp-stat-v">'+g.haarfarbe+'</div></div>';
+    if(g.koerbchengroesse) statsH+='<div class="gp-stat"><div class="gp-stat-l">Körbchen</div><div class="gp-stat-v">'+g.koerbchengroesse+'</div></div>';
+    if(g.figur) statsH+='<div class="gp-stat"><div class="gp-stat-l">Figur</div><div class="gp-stat-v">'+g.figur+'</div></div>';
+    if(g.sprachen) statsH+='<div class="gp-stat"><div class="gp-stat-l">Sprachen</div><div class="gp-stat-v">'+g.sprachen+'</div></div>';
+    statsH+='</div>';
+    if(statsH==='<div class="gp-stats"></div>') statsH='';
+
+    // Description
+    var descH=g.beschreibung?'<div class="gp-desc">'+g.beschreibung.replace(/\n/g,'<br>')+'</div>':'';
+
+    // Preis
+    var preisH=g.preis_info?'<div class="gp-preis">'+g.preis_info+'</div>':'';
+
+    // Schedule
+    var schedH='<div class="gp-sched">';
+    DSH.forEach(function(d,i){
+      var dayIdx=(i+1)%7; // DSH starts So, DAYS starts sonntag
+      var on=g[DAYS[dayIdx===0?0:dayIdx]];
+      // Fix: map DSH index to DAYS index correctly
+      var dkey=DAYS[i===0?0:(i)]; // So=0, Mo=1...Sa=6
+      on=g[dkey];
+      var cls=i===TODAY&&on?'gp-day today':(on?'gp-day on':'gp-day');
+      schedH+='<span class="'+cls+'">'+d+'</span>';
+    });
+    schedH+='</div>';
+
+    // Contact
+    var tel=g.telefon||s.telefon||'';
+    var wa=g.whatsapp||s.whatsapp||'';
+    var tg=g.telegram||s.telegram||'';
+    var btnsH='<div class="gp-btns">';
+    if(tel) btnsH+='<a href="tel:'+tel.replace(/\s/g,'')+'" class="gp-btn gp-btn-p">📞 Anrufen</a>';
+    if(wa){var n=wa.replace(/[^0-9]/g,'');btnsH+='<a href="https://wa.me/'+n+'" target="_blank" class="gp-btn gp-btn-s">💬 WhatsApp</a>';}
+    if(tg) btnsH+='<a href="https://t.me/'+tg.replace('@','')+'" target="_blank" class="gp-btn gp-btn-s">✈ Telegram</a>';
+    btnsH+='</div>';
+
+    // Studio box
+    var studioH='';
+    if(s.name){
+      var stImg='';
+      if(s.studio_bilder&&s.studio_bilder.length>0){
+        var sb=s.studio_bilder[0];
+        stImg=sb.url&&sb.url.startsWith('http')?sb.url:(sb.storage_path?STUDIO_ST+sb.storage_path:'');
+      }
+      var stCity=s.staedte?s.staedte.name:'';
+      studioH='<div class="gp-studio glass"><div class="gp-studio-top">'+(stImg?'<img class="gp-studio-img" src="'+stImg+'" alt="">':'<div class="gp-studio-img" style="display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--tx3);fill:none;stroke-width:1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>')+'<div><div class="gp-studio-n">'+s.name+'</div>'+(stCity?'<div class="gp-studio-loc"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg>'+stCity+'</div>':'')+'</div></div><a href="/detail.html?id='+s.id+'" class="gp-studio-link">Studio-Profil ansehen →</a></div>';
+    }
+
+    // Assemble
+    document.getElementById('content').innerHTML=
+      '<div class="gp-top"><div class="rv">'+photoH+'</div><div class="gp-info rv d1">'+
+      '<h1 class="gp-name">'+g.name+'</h1>'+
+      (g.motto?'<div class="gp-motto">«'+g.motto+'»</div>':'')+
+      availH+tagH+statsH+preisH+descH+schedH+btnsH+studioH+
+      '</div></div>';
+
+    // Load other girls from same studio
+    if(g.studio_id){
+      var others=await q('girls?studio_id=eq.'+g.studio_id+'&id=neq.'+gid+'&is_active=eq.true&select=id,name,bild_path,'+DAYS.join(','));
+      if(others&&others.length){
+        document.getElementById('othersSection').style.display='';
+        document.getElementById('othersTitle').textContent='Weitere Girls bei '+s.name;
+        document.getElementById('othersGrid').innerHTML=others.map(function(o){
+          var oImg=o.bild_path?GIRL_ST+o.bild_path:'';
+          var oAvail=o[DAYS[TODAY]];
+          return '<a href="/girl.html?id='+o.id+'" class="glass gp-oc">'+(oImg?'<img class="gp-oc-img" src="'+oImg+'" alt="'+o.name+'">':'<div class="gp-oc-img" style="display:flex;align-items:center;justify-content:center;background:var(--bg3)"><svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.3"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>')+'<div class="gp-oc-b"><div class="gp-oc-n">'+o.name+'</div>'+(oAvail?'<div class="gp-oc-avail">● Heute da</div>':'')+'</div></a>';
+        }).join('');
+      }
+    }
+
+    // Trigger animations
+    document.querySelectorAll('.rv').forEach(function(el){
+      new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.05}).observe(el);
+    });
+
+  }catch(e){
+    document.getElementById('content').innerHTML='<div style="text-align:center;padding:80px;color:var(--red)">Fehler: '+e.message+'</div>';
+    console.error(e);
+  }
+}
+init();
+</script>
+</body>
+</html>
