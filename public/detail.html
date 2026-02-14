@@ -213,7 +213,7 @@ async function init(){
      var on=g[DAYS[i]];var cls=i===TODAY&&on?'gm-day today':(on?'gm-day on':'gm-day');
      return '<span class="'+cls+'">'+d+'</span>';
     }).join('');
-    girlData.push({src:gImg,name:g.name,desc:g.beschreibung||'',days:gmDays});
+    girlData.push({id:g.id,src:gImg,name:g.name,desc:g.beschreibung||'',days:gmDays});
     girlH+='<div class="glass gcrd" style="cursor:pointer" onclick="openGirlLB('+gIdx+')"><div class="gcrd-img">'+(gImg?'<img src="'+gImg+'" alt="'+g.name+'">':'<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>')+'</div><div class="gcrd-b"><div class="gcrd-n">'+g.name+'</div>'+(g.beschreibung?'<div class="gcrd-d">'+g.beschreibung+'</div>':'')+'<div class="gdp">'+dp+'</div></div></div>';
    });
    girlImages=girlData;
@@ -299,7 +299,8 @@ function renderGM(){
   var g=girlImages[gmIdx];if(!g)return;
   var imgH=g.src?'<img class="gm-img" src="'+g.src+'" alt="'+g.name+'">':'<div class="gm-noimg"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
   var daysH='<div class="gm-days">'+g.days+'</div>';
-  document.getElementById('gmContent').innerHTML=imgH+'<div class="gm-b"><div class="gm-name">'+g.name+'</div>'+(g.desc?'<div class="gm-desc">'+g.desc+'</div>':'')+daysH+'</div>';
+  var profileLink=g.id?'<a href="/girl.html?id='+g.id+'" style="display:inline-flex;align-items:center;gap:4px;margin-top:10px;font-size:.76rem;font-weight:500;color:var(--ac);text-decoration:none">Sedcard ansehen →</a>':'';
+  document.getElementById('gmContent').innerHTML=imgH+'<div class="gm-b"><div class="gm-name">'+g.name+'</div>'+(g.desc?'<div class="gm-desc">'+g.desc+'</div>':'')+daysH+profileLink+'</div>';
   document.getElementById('gmCounter').textContent=(gmIdx+1)+' / '+girlImages.length;
 }
 document.addEventListener('keydown',function(e){

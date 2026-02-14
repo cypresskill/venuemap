@@ -55,8 +55,8 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 <div id="ag" class="age"><div class="age-c"><div class="age-ic">18+</div><h2>Altersbestätigung</h2><p>Diese Webseite enthält Inhalte für Erwachsene.<br>Bitte bestätige, dass du mindestens 18 Jahre alt bist.</p><div class="age-btns"><button id="ageY" class="age-y">Ich bin 18 oder älter</button><button id="ageN" class="age-n">Seite verlassen</button></div><div style="font-size:.6rem;color:var(--tx3);margin-top:16px">Mit dem Fortfahren akzeptierst du die Nutzungsbedingungen.</div></div></div>
 <div class="bg-mesh"><div class="bg-orb o1"></div><div class="bg-orb o2"></div><div class="bg-orb o3"></div></div><div class="bg-grain"></div><div class="bg-grid"></div>
 <div class="pg">
-<header><div class="hd-bg"></div><div class="hdi"><a href="/" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg></div>VenueMap</a><nav class="dk"><a href="/" class="nk a">Städte</a><a href="/alle-studios" class="nk">Alle Studios</a><a href="/studios" class="nk">Für Studios</a><div class="sep"></div><a href="/register" class="hcta">Studio eintragen</a><div class="sep"></div><a href="/admin" class="nk" style="color:var(--tx2)">Login</a></nav><button class="burg" onclick="document.getElementById('mn').classList.add('open')"><span></span><span></span><span></span></button></div></header>
-<div id="mn" class="mobnav"><button class="x" onclick="this.parentElement.classList.remove('open')">✕</button><a href="/">Städte</a><a href="/alle-studios">Alle Studios</a><a href="/studios">Für Studios</a><a href="/admin">Login</a></div>
+<header><div class="hd-bg"></div><div class="hdi"><a href="/" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg></div>VenueMap</a><nav class="dk"><a href="/alle-girls" class="nk">Girls</a><a href="/alle-studios" class="nk">Studios</a><a href="/studios" class="nk">Für Studios</a><div class="sep"></div><a href="/register" class="hcta">Studio eintragen</a><div class="sep"></div><a href="/admin" class="nk" style="color:var(--tx2)">Login</a></nav><button class="burg" onclick="document.getElementById('mn').classList.add('open')"><span></span><span></span><span></span></button></div></header>
+<div id="mn" class="mobnav"><button class="x" onclick="this.parentElement.classList.remove('open')">✕</button><a href="/alle-girls">Girls</a><a href="/alle-studios">Studios</a><a href="/studios">Für Studios</a><a href="/admin">Login</a></div>
 
 <section class="hero"><div class="hero-glow"></div><div class="ctn"><div class="hero-i">
   <h1 class="rv">Finde dein Studio<br>in der <em>Schweiz</em></h1>
@@ -66,8 +66,13 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 </div></div></section>
 
 <section class="feat"><div class="ctn">
-<div class="feat-top"><div><div class="s-label rv">Heute verfügbar</div><h2 class="s-title rv d1">Girls entdecken</h2></div><a href="/alle-studios" class="feat-all rv d1">Alle Studios <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+<div class="feat-top"><div><div class="s-label rv">Heute verfügbar</div><h2 class="s-title rv d1">Girls entdecken</h2></div><a href="/alle-girls" class="feat-all rv d1">Alle Girls <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
 <div class="feat-g" id="featGrid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))"><div class="loading">Lade…</div></div>
+</div></section>
+
+<section class="feat"><div class="ctn">
+<div class="feat-top"><div><div class="s-label rv">Empfohlene Studios</div><h2 class="s-title rv d1">Beliebte Studios</h2></div><a href="/alle-studios" class="feat-all rv d1">Alle Studios <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+<div class="feat-g" id="studioGrid"><div class="loading">Lade…</div></div>
 </div></section>
 
 <section class="regions"><div class="ctn"><div class="s-label rv">Alle Regionen</div><h2 class="s-title rv d1">Nach Kanton durchsuchen</h2>
@@ -78,7 +83,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 <section class="cta-sec"><div class="ctn"><div class="cta-box rv"><h2>Du betreibst ein Studio?</h2><p>Werde sichtbar auf der grössten Schweizer Plattform. 3 Monate kostenlos – keine Verpflichtung.</p><div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;justify-content:center"><a href="/register" class="btn">Jetzt kostenlos starten</a><a href="/studios" style="height:52px;display:flex;align-items:center;font-size:.84rem;color:var(--tx2);font-weight:500">Mehr erfahren →</a></div></div></div></section>
 <footer><div class="ctn foot"><div class="foot-l"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div><span class="foot-18">Nur für Personen ab 18 Jahren.</span></div></footer>
 </div>
-<nav class="bnav"><div class="bnav-i"><a href="/" class="bna a"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Städte</a><a href="#" class="bna" onclick="document.getElementById('si').focus();return false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Suche</a><a href="/alle-studios" class="bna"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Studios</a><a href="/admin" class="bna"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Login</a></div></nav>
+<nav class="bnav"><div class="bnav-i"><a href="/alle-girls" class="bna"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Girls</a><a href="#" class="bna" onclick="document.getElementById('si').focus();return false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Suche</a><a href="/alle-studios" class="bna"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Studios</a><a href="/admin" class="bna"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Login</a></div></nav>
 
 <script>
 // ═══ CONFIG ═══
@@ -216,6 +221,13 @@ async function init(){
     document.getElementById('featGrid').innerHTML = girlsToShow.length
       ? girlsToShow.map((g,i) => girlCard(g,i)).join('')
       : '<div class="loading">Noch keine Girls verfügbar.</div>';
+
+    // Studio section (6 featured studios)
+    var featStudios=studios.filter(s=>s.is_pro||s.featured).slice(0,6);
+    if(!featStudios.length)featStudios=studios.slice(0,6);
+    document.getElementById('studioGrid').innerHTML=featStudios.length
+      ? featStudios.map((s,i)=>studioCard(s,i+2)).join('')
+      : '<div class="loading">Noch keine Studios verfügbar.</div>';
 
     // Re-observe reveal animations
     document.querySelectorAll('.rv:not(.v)').forEach(function(el){

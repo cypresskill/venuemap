@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Alle Girls – VenueMap.ch</title>
+<meta name="description" content="Alle Girls auf VenueMap.ch – filtern nach Stadt, Verfügbarkeit und Tags.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#09080D">
+<link rel="canonical" href="https://venuemap.ch/alle-girls">
+<meta property="og:title" content="Alle Girls – VenueMap.ch">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09080D;--bg2:#0F0E16;--bg3:#161520;--sf:rgba(22,21,32,.7);--sf2:rgba(30,29,42,.9);--bdr:rgba(255,255,255,.06);--bdr2:rgba(255,255,255,.1);--tx:#F4F2F7;--tx2:#9B97A8;--tx3:#5E5A6E;--ac:#C8926A;--ac2:#DDAA82;--acl:rgba(200,146,106,.08);--ach:rgba(200,146,106,.15);--grn:#6BAD8E;--f:'Inter',system-ui,sans-serif;--fs:'Playfair Display',Georgia,serif;--r:14px;--rs:8px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--f);background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit;text-decoration:none}button{font-family:var(--f);cursor:pointer}.ctn{max-width:1100px;margin:0 auto;padding:0 20px}@media(min-width:768px){.ctn{padding:0 40px}}
+.bg-mesh{position:fixed;inset:0;z-index:0;overflow:hidden}.bg-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.08;animation:orbF 28s ease-in-out infinite}.o1{width:500px;height:500px;background:radial-gradient(circle,#C8926A,transparent 70%);top:-10%;right:-10%}.o2{width:350px;height:350px;background:radial-gradient(circle,#6B5EC8,transparent 70%);bottom:-10%;left:-5%;animation-delay:-10s}@keyframes orbF{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,30px)}}
+.bg-grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+.pg{position:relative;z-index:2}@media(max-width:767px){.pg{padding-bottom:62px}}
+.glass{background:var(--sf);backdrop-filter:blur(16px);border:1px solid var(--bdr);border-radius:var(--r)}.glass:hover{border-color:var(--bdr2)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}.rv.v{opacity:1;transform:none}.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{position:absolute;inset:0;background:rgba(9,8,13,.5);backdrop-filter:blur(30px)saturate(1.4);border-bottom:1px solid var(--bdr)}.hdi{max-width:1100px;margin:0 auto;padding:0 20px;height:100%;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}@media(min-width:768px){.hdi{padding:0 40px}}.logo{font-family:var(--fs);font-size:1.15rem;font-weight:500;display:flex;align-items:center;gap:8px}.logo-m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--ac),#A07050);display:flex;align-items:center;justify-content:center}.logo-m svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2}
+.dk{display:none;align-items:center;gap:4px}@media(min-width:768px){.dk{display:flex}}.nk{font-size:.78rem;padding:8px 14px;border-radius:10px;color:var(--tx2);transition:all .2s;font-weight:400}.nk:hover,.nk.a{color:var(--tx);background:rgba(255,255,255,.04)}.sep{width:1px;height:16px;background:var(--bdr);margin:0 4px}.hcta{font-size:.72rem;font-weight:600;padding:8px 18px;border-radius:10px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);transition:all .2s;white-space:nowrap}.hcta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,146,106,.3)}
+.burg{display:flex;flex-direction:column;gap:4px;background:none;border:none;padding:8px}@media(min-width:768px){.burg{display:none}}.burg span{width:18px;height:1.5px;background:var(--tx2);border-radius:1px;transition:all .2s}
+.mobnav{position:fixed;inset:0;z-index:200;background:rgba(9,8,13,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .3s}.mobnav.open{opacity:1;pointer-events:auto}.mobnav a{font-size:1.1rem;color:var(--tx);font-weight:400;padding:8px 20px}.mobnav .x{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--tx2);font-size:1.2rem}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(9,8,13,.85);backdrop-filter:blur(20px)saturate(1.5);border-top:1px solid var(--bdr);padding:6px 0;display:block}@media(min-width:768px){.bnav{display:none}}.bnav-i{display:flex;justify-content:space-around;max-width:400px;margin:0 auto}.bna{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.56rem;color:var(--tx3);padding:4px 8px;transition:color .2s}.bna.a{color:var(--ac)}.bna svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* Filters */
+.filters{padding:80px 0 20px}
+.filters-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fi{height:36px;padding:0 14px;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:10px;font-family:var(--f);font-size:.76rem;color:var(--tx);outline:none;appearance:none;cursor:pointer;transition:border-color .2s}
+.fi:focus{border-color:rgba(200,146,106,.3)}
+.fi-search{flex:1;min-width:140px;padding-left:32px;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%235E5A6E' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center;background-size:14px}
+.fi-tag{height:32px;padding:0 12px;border-radius:8px;font-size:.68rem;font-weight:500;border:1px solid var(--bdr);background:rgba(255,255,255,.02);color:var(--tx3);cursor:pointer;transition:all .15s}
+.fi-tag:hover{border-color:var(--ac);color:var(--ac)}
+.fi-tag.on{background:var(--acl);border-color:rgba(200,146,106,.25);color:var(--ac)}
+.fi-count{font-size:.72rem;color:var(--tx3);margin-left:auto}
+.fi-today{height:32px;padding:0 12px;border-radius:8px;font-size:.68rem;font-weight:600;border:1px solid rgba(107,173,142,.2);background:rgba(107,173,142,.08);color:var(--grn);cursor:pointer;display:flex;align-items:center;gap:5px}.fi-today.on{background:rgba(107,173,142,.15);border-color:var(--grn)}
+.fi-today-dot{width:5px;height:5px;border-radius:50%;background:var(--grn);box-shadow:0 0 4px var(--grn)}
+
+/* Grid */
+.grid{padding:10px 0 60px}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+.gc{overflow:hidden;cursor:pointer;display:block;position:relative;transition:all .2s}.gc:hover{border-color:rgba(200,146,106,.15);transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.gc-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;background:var(--bg3);display:block}
+.gc-b{padding:12px 14px}
+.gc-n{font-size:.86rem;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-meta{font-size:.64rem;color:var(--tx3)}
+.gc-avail{font-size:.56rem;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;margin-top:5px;background:rgba(107,173,142,.1);color:var(--grn);border:1px solid rgba(107,173,142,.15)}
+.gc-avail-dot{width:4px;height:4px;border-radius:50%;background:var(--grn);box-shadow:0 0 4px var(--grn)}
+.gc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}.gc-tag{font-size:.5rem;padding:2px 6px;border-radius:4px;background:var(--acl);color:var(--ac);border:1px solid rgba(200,146,106,.1)}
+.gc-noimg{width:100%;aspect-ratio:3/4;background:var(--bg3);display:flex;align-items:center;justify-content:center}.gc-noimg svg{width:32px;height:32px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}
+.empty{text-align:center;padding:60px 20px;color:var(--tx3);font-size:.86rem}
+footer{padding:40px 0;border-top:1px solid var(--bdr)}.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}.foot-l{display:flex;gap:16px}.foot-l a{font-size:.72rem;color:var(--tx3)}.foot-18{font-size:.6rem;color:var(--tx3);opacity:.5}
+</style>
+</head>
+<body>
+<div id="ag" style="position:fixed;inset:0;z-index:9999;background:rgba(9,8,13,.92);backdrop-filter:blur(32px);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .5s,visibility .5s"><div style="background:rgba(30,29,42,.9);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:48px 36px;max-width:380px;width:100%;text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:rgba(200,146,106,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.2rem;font-weight:600;color:#C8926A">18+</div><h2 style="font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:400;margin-bottom:6px">Altersbestätigung</h2><p style="font-size:.82rem;color:#9B97A8;line-height:1.6;margin-bottom:26px">Diese Webseite enthält Inhalte für Erwachsene.</p><button onclick="localStorage.setItem('vm18','1');this.closest('#ag').style.opacity='0';this.closest('#ag').style.pointerEvents='none';document.body.style.overflow=''" style="width:100%;height:50px;border:none;border-radius:12px;background:linear-gradient(135deg,#C8926A,#DDAA82);color:#09080D;font-size:.86rem;font-weight:600;cursor:pointer;font-family:var(--f)">Ich bin 18 oder älter</button><button onclick="window.location='https://www.google.com'" style="width:100%;height:44px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:transparent;color:#5E5A6E;font-size:.82rem;cursor:pointer;margin-top:8px;font-family:var(--f)">Seite verlassen</button></div></div>
+<script>if(localStorage.getItem('vm18')){document.getElementById('ag').style.display='none'}else{document.body.style.overflow='hidden'}</script>
+<div class="bg-mesh"><div class="bg-orb o1"></div><div class="bg-orb o2"></div></div><div class="bg-grain"></div>
+<div class="pg">
+<header><div class="hd-bg"></div><div class="hdi"><a href="/" class="logo"><div class="logo-m"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z"/></svg></div>VenueMap</a><nav class="dk"><a href="/alle-girls" class="nk a">Girls</a><a href="/alle-studios" class="nk">Studios</a><a href="/studios" class="nk">Für Studios</a><div class="sep"></div><a href="/register" class="hcta">Studio eintragen</a><div class="sep"></div><a href="/admin" class="nk" style="color:var(--tx2)">Login</a></nav><button class="burg" onclick="document.getElementById('mn').classList.add('open')"><span></span><span></span><span></span></button></div></header>
+<div id="mn" class="mobnav"><button class="x" onclick="this.parentElement.classList.remove('open')">✕</button><a href="/alle-girls">Girls</a><a href="/alle-studios">Studios</a><a href="/studios">Für Studios</a><a href="/admin">Login</a></div>
+
+<section class="filters"><div class="ctn">
+  <h1 style="font-family:var(--fs);font-size:clamp(1.3rem,3vw,1.8rem);font-weight:400;margin-bottom:16px" class="rv">Alle Girls</h1>
+  <div class="filters-bar rv d1">
+    <input type="text" class="fi fi-search" id="fSearch" placeholder="Name suchen…" oninput="applyFilters()">
+    <select class="fi" id="fCity" onchange="applyFilters()"><option value="">Alle Städte</option></select>
+    <button class="fi-today" id="fToday" onclick="this.classList.toggle('on');applyFilters()"><span class="fi-today-dot"></span>Heute verfügbar</button>
+    <span class="fi-count" id="fCount"></span>
+  </div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px" id="tagFilters" class="rv d2"></div>
+</div></section>
+
+<section class="grid"><div class="ctn">
+  <div class="gg" id="girlGrid"><div style="text-align:center;padding:40px;color:var(--tx3)">Lade Girls…</div></div>
+</div></section>
+
+<footer><div class="ctn foot"><div class="foot-l"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Kontakt</a></div><span class="foot-18">18+ | VenueMap.ch</span></div></footer>
+</div>
+<nav class="bnav"><div class="bnav-i"><a href="/alle-girls" class="bna a"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Girls</a><a href="#" class="bna" onclick="document.getElementById('fSearch').focus();return false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Suche</a><a href="/alle-studios" class="bna"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Studios</a><a href="/admin" class="bna"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Login</a></div></nav>
+
+<script>
+const SB='https://undrlwlxcsrayldbxepd.supabase.co/rest/v1/';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZHJsd2x4Y3NyYXlsZGJ4ZXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTkyMDMsImV4cCI6MjA4NjU3NTIwM30.7-U3lFqu5jyrg-CeQwQyJrUmZflC3PqmhytSfRk7KbI';
+const GST='https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/';
+async function q(p){const r=await fetch(SB+p,{headers:{'apikey':KEY}});return r.json();}
+const DM=['sonntag','montag','dienstag','mittwoch','donnerstag','freitag','samstag'];
+const TK=DM[new Date().getDay()];
+
+var allGirls=[],activeTags=new Set();
+
+function girlCard(g,i){
+  var sn=g.studios?g.studios.name:'';var cn=(g.studios&&g.studios.staedte)?g.studios.staedte.name:'';
+  var isToday=g[TK];
+  var imgH=g.bild_path?'<img class="gc-img" src="'+GST+g.bild_path+'" alt="'+g.name+'" loading="lazy">':'<div class="gc-noimg"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
+  var availH=isToday?'<div class="gc-avail"><span class="gc-avail-dot"></span>Heute da</div>':'';
+  var tagsH='';if(g.girl_tag_zuordnung&&g.girl_tag_zuordnung.length){tagsH='<div class="gc-tags">';g.girl_tag_zuordnung.slice(0,3).forEach(function(t){if(t.girl_tags)tagsH+='<span class="gc-tag">'+t.girl_tags.name+'</span>';});tagsH+='</div>';}
+  return '<a href="/girl.html?id='+g.id+'" class="glass gc rv d'+(i%5+1)+'">'+imgH+'<div class="gc-b"><div class="gc-n">'+g.name+'</div><div class="gc-meta">'+(cn||sn)+'</div>'+availH+tagsH+'</div></a>';
+}
+
+function applyFilters(){
+  var search=document.getElementById('fSearch').value.toLowerCase();
+  var city=document.getElementById('fCity').value;
+  var todayOnly=document.getElementById('fToday').classList.contains('on');
+  var filtered=allGirls.filter(function(g){
+    if(search&&!g.name.toLowerCase().includes(search))return false;
+    if(city){var cn=(g.studios&&g.studios.staedte)?g.studios.staedte.name:'';if(cn!==city)return false;}
+    if(todayOnly&&!g[TK])return false;
+    if(activeTags.size>0){var gTags=(g.girl_tag_zuordnung||[]).map(function(t){return t.girl_tags?t.girl_tags.name:'';});var match=false;activeTags.forEach(function(t){if(gTags.includes(t))match=true;});if(!match)return false;}
+    return true;
+  });
+  // Sort: today available first, then with photo, then rest
+  filtered.sort(function(a,b){
+    var aT=a[TK]?1:0,bT=b[TK]?1:0;if(bT!==aT)return bT-aT;
+    var aP=a.bild_path?1:0,bP=b.bild_path?1:0;return bP-aP;
+  });
+  document.getElementById('fCount').textContent=filtered.length+' Girls';
+  document.getElementById('girlGrid').innerHTML=filtered.length?filtered.map((g,i)=>girlCard(g,i)).join(''):'<div class="empty">Keine Girls gefunden.</div>';
+  document.querySelectorAll('.rv:not(.v)').forEach(function(el){new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.05}).observe(el);});
+}
+
+function toggleTagFilter(name,el){
+  if(activeTags.has(name)){activeTags.delete(name);el.classList.remove('on');}
+  else{activeTags.add(name);el.classList.add('on');}
+  applyFilters();
+}
+
+async function init(){
+  try{
+    var [girls,tags]=await Promise.all([
+      q('girls?is_active=eq.true&is_approved=eq.true&order=created_at.desc&select=*,studios(id,name,staedte(name)),girl_tag_zuordnung(girl_tags(name,gruppe))'),
+      q('girl_tags?is_active=eq.true&order=sort_order')
+    ]);
+    allGirls=girls||[];
+    // Populate city filter
+    var cities=new Set();allGirls.forEach(function(g){var cn=(g.studios&&g.studios.staedte)?g.studios.staedte.name:'';if(cn)cities.add(cn);});
+    var sel=document.getElementById('fCity');[...cities].sort().forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+    // Populate tag filters (Service + Highlight only)
+    var tf=document.getElementById('tagFilters');
+    (tags||[]).filter(function(t){return t.gruppe==='Service'||t.gruppe==='Highlight';}).forEach(function(t){
+      tf.innerHTML+='<button class="fi-tag" onclick="toggleTagFilter(\''+t.name+'\',this)">'+t.name+'</button>';
+    });
+    applyFilters();
+  }catch(e){document.getElementById('girlGrid').innerHTML='<div class="empty">Fehler: '+e.message+'</div>';}
+}
+init();
+document.querySelectorAll('.rv').forEach(function(el){new IntersectionObserver(function(e){if(e[0].isIntersecting)el.classList.add('v')},{threshold:.08}).observe(el);});
+</script>
+</body>
+</html>
