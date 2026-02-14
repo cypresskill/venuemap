@@ -39,6 +39,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:60px}.hd-bg{positi
 .feat{padding:48px 0 80px;position:relative}@media(min-width:768px){.feat{padding:64px 0 100px}}.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}.feat-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px}.feat-all{font-size:.8rem;color:var(--ac);font-weight:500;display:flex;align-items:center;gap:5px;transition:opacity .2s}.feat-all:hover{opacity:.7}.feat-all svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}.feat-g{display:grid;gap:14px;margin-top:28px;grid-template-columns:1fr}@media(min-width:600px){.feat-g{grid-template-columns:repeat(2,1fr)}}@media(min-width:900px){.feat-g{grid-template-columns:repeat(3,1fr)}}
 .sc{overflow:hidden;cursor:pointer;display:block;position:relative}.sc:hover{border-color:rgba(200,146,106,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}.sc-img{height:200px;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.sc-img::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(9,8,13,.7));z-index:1}.sc-img svg{width:28px;height:28px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}.sc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.sc-cat{position:absolute;top:12px;left:12px;font-size:.58rem;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(9,8,13,.6);backdrop-filter:blur(8px);color:var(--tx2);letter-spacing:.04em;text-transform:uppercase;z-index:2;border:1px solid var(--bdr)}.sc-today{position:absolute;bottom:12px;right:12px;font-size:.6rem;font-weight:600;padding:3px 9px;border-radius:5px;background:rgba(107,173,142,.15);color:var(--grn);z-index:2;border:1px solid rgba(107,173,142,.2)}.sc-b{padding:18px 20px}.sc-n{font-family:var(--fs);font-size:1.05rem;font-weight:400;margin-bottom:5px;display:flex;align-items:center;gap:8px}.sc-v{display:inline-flex;align-items:center;gap:3px;font-size:.56rem;font-weight:600;color:var(--grn);background:rgba(107,173,142,.08);padding:2px 7px;border-radius:4px;border:1px solid rgba(107,173,142,.15)}.sc-v svg{width:8px;height:8px;stroke:var(--grn);fill:none;stroke-width:2.5}.sc-loc{font-size:.74rem;color:var(--tx3);display:flex;align-items:center;gap:4px}.sc-loc svg{width:10px;height:10px;stroke:var(--tx3);fill:none;stroke-width:2}
 .sc-girls{display:flex;align-items:center;gap:-4px;margin-top:10px}.sc-ava{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--bg3);margin-left:-6px;background:var(--bg3)}.sc-ava:first-child{margin-left:0}.sc-ava-more{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:2px solid var(--bg3);margin-left:-6px;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:600;color:var(--tx3)}.sc-girls-txt{font-size:.66rem;color:var(--tx3);margin-left:8px;font-weight:400}
+.gc{overflow:hidden;cursor:pointer;display:block;position:relative;transition:all .2s}.gc:hover{border-color:rgba(200,146,106,.15);transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.25)}.gc-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;background:var(--bg3);display:block}.gc-b{padding:12px 14px}.gc-n{font-size:.88rem;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gc-meta{font-size:.64rem;color:var(--tx3);display:flex;align-items:center;gap:6px}.gc-avail{font-size:.58rem;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;margin-top:6px}.gc-avail.on{background:rgba(107,173,142,.1);color:var(--grn);border:1px solid rgba(107,173,142,.15)}.gc-avail.off{background:rgba(255,255,255,.03);color:var(--tx3);border:1px solid var(--bdr)}.gc-avail-dot{width:4px;height:4px;border-radius:50%}.gc-avail.on .gc-avail-dot{background:var(--grn);box-shadow:0 0 4px var(--grn)}.gc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}.gc-tag{font-size:.52rem;padding:2px 6px;border-radius:4px;background:var(--acl);color:var(--ac);border:1px solid rgba(200,146,106,.1)}.gc-noimg{width:100%;aspect-ratio:3/4;background:var(--bg3);display:flex;align-items:center;justify-content:center}.gc-noimg svg{width:32px;height:32px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.2}
 
 
 .regions{padding:80px 0;position:relative}@media(min-width:768px){.regions{padding:100px 0}}.regions::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bdr2),transparent)}
@@ -65,8 +66,8 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}.foot{display:flex;flex-di
 </div></div></section>
 
 <section class="feat"><div class="ctn">
-<div class="feat-top"><div><div class="s-label rv">Empfohlene Studios</div><h2 class="s-title rv d1">Aktuell beliebt</h2></div><a href="/alle-studios" class="feat-all rv d1">Alle Studios <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
-<div class="feat-g" id="featGrid"><div class="loading">Lade…</div></div>
+<div class="feat-top"><div><div class="s-label rv">Heute verfügbar</div><h2 class="s-title rv d1">Girls entdecken</h2></div><a href="/alle-studios" class="feat-all rv d1">Alle Studios <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+<div class="feat-g" id="featGrid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))"><div class="loading">Lade…</div></div>
 </div></section>
 
 <section class="regions"><div class="ctn"><div class="s-label rv">Alle Regionen</div><h2 class="s-title rv d1">Nach Kanton durchsuchen</h2>
@@ -148,10 +149,11 @@ function studioCard(s, delay){
 async function init(){
   try{
     // Fetch all data in parallel
-    const [cities, studios, kantone] = await Promise.all([
+    const [cities, studios, kantone, allGirls] = await Promise.all([
       q('staedte?is_active=eq.true&order=sort_order&select=*,kantone(name,code)'),
       q('studios?status=eq.approved&order=sort_order,created_at.desc&select=*,kategorien(name),staedte(name),studio_bilder(url,storage_path),girls(id,name,bild_path,montag,dienstag,mittwoch,donnerstag,freitag,samstag,sonntag,is_active,is_approved)'),
-      q('kantone?order=name')
+      q('kantone?order=name'),
+      q('girls?is_active=eq.true&is_approved=eq.true&order=created_at.desc&select=*,studios(id,name,staedte(name)),girl_tag_zuordnung(girl_tags(name,gruppe))')
     ]);
 
     // Stats
@@ -190,12 +192,30 @@ async function init(){
     }
     document.getElementById('heroLive').innerHTML=liveH;
 
-    // Featured studios (pro first, then featured, then newest)
-    const featured = studios.filter(s => s.is_pro || s.featured).slice(0,6);
-    const toShow = featured.length ? featured : studios.slice(0,6);
-    document.getElementById('featGrid').innerHTML = toShow.length
-      ? toShow.map((s,i) => studioCard(s,i+2)).join('')
-      : '<div class="loading">Noch keine Studios verfügbar.</div>';
+    // Featured Girls (today available first, then all with photos)
+    var todayGirlsList=allGirls.filter(function(g){return g[TODAY_KEY]&&g.bild_path;});
+    var otherGirls=allGirls.filter(function(g){return g.bild_path&&!g[TODAY_KEY];});
+    var girlsToShow=todayGirlsList.concat(otherGirls).slice(0,12);
+    if(!girlsToShow.length) girlsToShow=allGirls.filter(function(g){return g.bild_path;}).slice(0,12);
+    
+    function girlCard(g,i){
+      var studioName=g.studios?g.studios.name:'';
+      var cityName=(g.studios&&g.studios.staedte)?g.studios.staedte.name:'';
+      var isToday=g[TODAY_KEY];
+      var imgH=g.bild_path?'<img class="gc-img" src="'+GIRL_STORAGE+g.bild_path+'" alt="'+g.name+'" loading="lazy">':'<div class="gc-noimg"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
+      var availH='<div class="gc-avail '+(isToday?'on':'off')+'"><span class="gc-avail-dot"></span>'+(isToday?'Heute da':'')+'</div>';
+      var tagsH='';
+      if(g.girl_tag_zuordnung&&g.girl_tag_zuordnung.length){
+        tagsH='<div class="gc-tags">';
+        g.girl_tag_zuordnung.slice(0,3).forEach(function(t){if(t.girl_tags)tagsH+='<span class="gc-tag">'+t.girl_tags.name+'</span>';});
+        tagsH+='</div>';
+      }
+      return '<a href="/girl.html?id='+g.id+'" class="glass gc rv d'+(i%5+1)+'">'+imgH+'<div class="gc-b"><div class="gc-n">'+g.name+'</div><div class="gc-meta">'+(cityName||studioName)+'</div>'+(isToday?availH:'')+tagsH+'</div></a>';
+    }
+    
+    document.getElementById('featGrid').innerHTML = girlsToShow.length
+      ? girlsToShow.map((g,i) => girlCard(g,i)).join('')
+      : '<div class="loading">Noch keine Girls verfügbar.</div>';
 
     // Re-observe reveal animations
     document.querySelectorAll('.rv:not(.v)').forEach(function(el){

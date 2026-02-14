@@ -120,12 +120,17 @@ select option{background:#161520;color:#F4F2F7}
   </div>
   <!-- GIRLS -->
   <div class="mpane" id="mp-girls">
-    <p style="font-size:.78rem;color:var(--tx2);margin-bottom:12px">Girls verwalten und Wochenplan festlegen.</p>
+    <p style="font-size:.78rem;color:var(--tx2);margin-bottom:12px">Girls verwalten – Profil, Fotos, Tags und Wochenplan.</p>
     <div id="girlsList"></div>
     <div class="girl-card" style="border-color:var(--bdr2)">
       <div class="fg-sep" style="margin-top:0;border:none;padding:0">Neues Girl hinzufügen</div>
-      <div class="fg"><label>Name *</label><input type="text" id="newGirlName" placeholder="z.B. Mia"></div>
-      <div class="fg"><label>Beschreibung <span id="newGirlDescCount" style="float:right;font-weight:400;color:var(--tx3)">0/150</span></label><textarea id="newGirlDesc" placeholder="Kurze Beschreibung (optional)" style="height:70px" maxlength="150" oninput="document.getElementById('newGirlDescCount').textContent=this.value.length+'/150'"></textarea></div>
+      <div class="fg-row"><div class="fg"><label>Name *</label><input type="text" id="newGirlName" placeholder="z.B. Mia"></div><div class="fg"><label>Alter</label><input type="number" id="newGirlAge" placeholder="25" min="18" max="65"></div></div>
+      <div class="fg-row"><div class="fg"><label>Nationalität</label><input type="text" id="newGirlNat" placeholder="z.B. Brasilianerin"></div><div class="fg"><label>Sprachen</label><input type="text" id="newGirlLang" placeholder="Deutsch, Englisch"></div></div>
+      <div class="fg-row"><div class="fg"><label>Grösse (cm)</label><input type="number" id="newGirlHeight" placeholder="170"></div><div class="fg"><label>Haarfarbe</label><input type="text" id="newGirlHair" placeholder="Blond"></div></div>
+      <div class="fg-row"><div class="fg"><label>Körbchen</label><input type="text" id="newGirlCup" placeholder="C"></div><div class="fg"><label>Figur</label><select id="newGirlFigur"><option value="">–</option><option>schlank</option><option>sportlich</option><option>normal</option><option>kurvig</option></select></div></div>
+      <div class="fg"><label>Motto / Headline</label><input type="text" id="newGirlMotto" placeholder="z.B. Deine Traumfrau wartet…"></div>
+      <div class="fg"><label>Beschreibung</label><textarea id="newGirlDesc" placeholder="Profiltext (optional)" style="height:70px" maxlength="500"></textarea></div>
+      <div class="fg-row"><div class="fg"><label>Preis-Info</label><input type="text" id="newGirlPreis" placeholder="z.B. ab CHF 200/30min"></div><div class="fg"><label>WhatsApp</label><input type="text" id="newGirlWA" placeholder="+41 79 …"></div></div>
       <button class="btn" onclick="addGirl()">Girl hinzufügen</button>
       <div class="err" id="girlErr"></div>
     </div>
@@ -366,50 +371,101 @@ async function loadGirls(studioId){
   try{
     const girls=await api('girls?studio_id=eq.'+studioId+'&order=sort_order');
     if(!girls.length){box.innerHTML='<div class="empty" style="padding:20px">Noch keine Girls erfasst.</div>';return;}
+    if(!window._allTags)try{window._allTags=await api('girl_tags?order=sort_order');}catch(e){window._allTags=[];}
     box.innerHTML=girls.map(g=>{
       const days=['Mo','Di','Mi','Do','Fr','Sa','So'];const dkeys=['montag','dienstag','mittwoch','donnerstag','freitag','samstag','sonntag'];
       const dayBtns=days.map((d,i)=>'<div class="gday'+(g[dkeys[i]]?' on':'')+'" onclick="toggleGirlDay(\''+g.id+'\',\''+dkeys[i]+'\',this)">'+d+'</div>').join('');
       const imgUrl=g.bild_path?'https://undrlwlxcsrayldbxepd.supabase.co/storage/v1/object/public/girl-bilder/'+g.bild_path:'';
-      const imgHtml=imgUrl?'<img src="'+imgUrl+'" style="width:60px;height:60px;border-radius:8px;object-fit:cover;border:1px solid var(--bdr);cursor:pointer" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()">':'<div class="img-slot" style="width:60px;height:60px;min-height:0;aspect-ratio:auto" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()"><span style="font-size:.8rem">+</span><span>Foto</span></div>';
-      return '<div class="girl-card"><div style="display:flex;gap:12px;align-items:flex-start"><div style="flex-shrink:0">'+imgHtml+'<input type="file" id="girlImg_'+g.id+'" accept="image/*" style="display:none" onchange="uploadGirlPhoto(\''+g.id+'\',this.files[0])"></div><div style="flex:1"><div style="display:flex;gap:6px;margin-bottom:6px"><input type="text" value="'+g.name+'" id="gn_'+g.id+'" style="flex:1;height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.8rem;color:var(--tx);outline:none"><button class="btn-sm btn-edit" onclick="saveGirl(\''+g.id+'\')">✓</button><button class="btn-sm btn-reject" onclick="deleteGirl(\''+g.id+'\')">✕</button></div><textarea id="gd_'+g.id+'" style="width:100%;height:50px;padding:6px 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.74rem;color:var(--tx2);outline:none;resize:none" maxlength="150" placeholder="Beschreibung…">'+(g.beschreibung||'')+'</textarea><div class="girl-days">'+dayBtns+'</div></div></div></div>';
+      const imgHtml=imgUrl?'<img src="'+imgUrl+'" style="width:70px;height:90px;border-radius:8px;object-fit:cover;object-position:center top;border:1px solid var(--bdr);cursor:pointer" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()">':'<div class="img-slot" style="width:70px;height:90px;min-height:0;aspect-ratio:auto" onclick="document.getElementById(\'girlImg_'+g.id+'\').click()"><span style="font-size:.8rem">+</span><span>Foto</span></div>';
+      var h='<div class="girl-card" id="gc_'+g.id+'"><div style="display:flex;gap:12px;align-items:flex-start"><div style="flex-shrink:0">'+imgHtml+'<input type="file" id="girlImg_'+g.id+'" accept="image/*" style="display:none" onchange="uploadGirlPhoto(\''+g.id+'\',this.files[0])"></div><div style="flex:1">';
+      h+='<div style="display:flex;gap:6px;margin-bottom:6px;align-items:center"><input type="text" value="'+(g.name||'')+'" id="gn_'+g.id+'" style="flex:1;height:32px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-family:var(--f);font-size:.84rem;color:var(--tx);outline:none;font-weight:500">';
+      h+='<a href="/girl.html?id='+g.id+'" target="_blank" style="font-size:.6rem;color:var(--ac);white-space:nowrap">↗</a>';
+      h+='<button class="btn-sm btn-edit" onclick="saveGirl(\''+g.id+'\')">✓</button><button class="btn-sm btn-reject" onclick="deleteGirl(\''+g.id+'\')">✕</button></div>';
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;margin-bottom:6px;font-size:.7rem">';
+      h+='<div><span style="color:var(--tx3)">Alter:</span> <input type="number" value="'+(g.alter_jahre||'')+'" id="ga_'+g.id+'" style="width:40px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Nation:</span> <input type="text" value="'+(g.nationalitaet||'')+'" id="gnat_'+g.id+'" style="width:80px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Grösse:</span> <input type="number" value="'+(g.groesse||'')+'" id="gh_'+g.id+'" style="width:45px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Haare:</span> <input type="text" value="'+(g.haarfarbe||'')+'" id="ghr_'+g.id+'" style="width:60px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Körbchen:</span> <input type="text" value="'+(g.koerbchengroesse||'')+'" id="gcup_'+g.id+'" style="width:30px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Figur:</span> <select id="gfig_'+g.id+'" style="height:22px;padding:0 2px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.66rem;color:var(--tx);outline:none"><option value="">–</option><option'+(g.figur==='schlank'?' selected':'')+'>schlank</option><option'+(g.figur==='sportlich'?' selected':'')+'>sportlich</option><option'+(g.figur==='normal'?' selected':'')+'>normal</option><option'+(g.figur==='kurvig'?' selected':'')+'>kurvig</option></select></div>';
+      h+='<div><span style="color:var(--tx3)">Sprachen:</span> <input type="text" value="'+(g.sprachen||'')+'" id="gsp_'+g.id+'" style="width:90px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='<div><span style="color:var(--tx3)">Preis:</span> <input type="text" value="'+(g.preis_info||'')+'" id="gpr_'+g.id+'" style="width:90px;height:22px;padding:0 4px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:4px;font-size:.68rem;color:var(--tx);outline:none"></div>';
+      h+='</div>';
+      h+='<input type="text" value="'+(g.motto||'')+'" id="gmo_'+g.id+'" style="width:100%;height:26px;padding:0 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-size:.72rem;color:var(--tx2);outline:none;margin-bottom:4px;font-style:italic" placeholder="Motto…">';
+      h+='<textarea id="gd_'+g.id+'" style="width:100%;height:40px;padding:4px 8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:6px;font-size:.72rem;color:var(--tx2);outline:none;resize:none" maxlength="500" placeholder="Beschreibung…">'+(g.beschreibung||'')+'</textarea>';
+      h+='<div style="margin-top:4px"><button class="btn-sm" style="font-size:.6rem;padding:2px 8px;background:var(--acl);border:1px solid rgba(200,146,106,.15);color:var(--ac)" onclick="openTagEditor(\''+g.id+'\')">Tags</button> <span id="gtags_'+g.id+'" style="font-size:.6rem;color:var(--tx3)"></span></div>';
+      h+='<div class="girl-days" style="margin-top:6px">'+dayBtns+'</div></div></div></div>';
+      return h;
     }).join('');
+    girls.forEach(async function(g){try{var gt=await api('girl_tag_zuordnung?girl_id=eq.'+g.id+'&select=girl_tags(name)');var el=document.getElementById('gtags_'+g.id);if(el&&gt.length)el.textContent=gt.map(t=>t.girl_tags.name).join(', ');}catch(e){}});
   }catch(e){box.innerHTML='<div style="color:var(--red);font-size:.76rem">'+e.message+'</div>';}
 }
+async function openTagEditor(girlId){
+  if(!window._allTags)window._allTags=await api('girl_tags?order=sort_order');
+  var assigned=await api('girl_tag_zuordnung?girl_id=eq.'+girlId);var aids=assigned.map(a=>a.tag_id);
+  var groups={};window._allTags.forEach(function(t){if(!groups[t.gruppe])groups[t.gruppe]=[];groups[t.gruppe].push(t);});
+  var h='<div style="max-height:60vh;overflow-y:auto">';
+  Object.keys(groups).forEach(function(grp){
+    h+='<div style="font-size:.62rem;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 6px">'+grp+'</div><div style="display:flex;flex-wrap:wrap;gap:5px">';
+    groups[grp].forEach(function(t){var on=aids.includes(t.id);h+='<label style="font-size:.68rem;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid '+(on?'rgba(200,146,106,.3)':'var(--bdr)')+';background:'+(on?'var(--acl)':'rgba(255,255,255,.02)')+';color:'+(on?'var(--ac)':'var(--tx2)')+'"><input type="checkbox" value="'+t.id+'" '+(on?'checked':'')+' style="display:none" onchange="toggleTag(\''+girlId+'\',\''+t.id+'\',this.checked,this.parentElement)"> '+t.name+'</label>';});
+    h+='</div>';
+  });h+='</div>';
+  var ov=document.createElement('div');ov.id='tagOv';ov.style.cssText='position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px';
+  ov.innerHTML='<div style="background:var(--bg3);border:1px solid var(--bdr2);border-radius:16px;padding:24px;max-width:500px;width:100%"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-size:.9rem;font-weight:500">Tags bearbeiten</h3><button onclick="document.getElementById(\'tagOv\').remove();loadGirls(currentEditId)" style="background:none;border:none;color:var(--tx3);font-size:1.1rem;cursor:pointer">✕</button></div>'+h+'</div>';
+  document.body.appendChild(ov);
+}
+async function toggleTag(gid,tid,on,el){try{if(on){await api('girl_tag_zuordnung',{method:'POST',body:{girl_id:gid,tag_id:tid}});el.style.background='var(--acl)';el.style.borderColor='rgba(200,146,106,.3)';el.style.color='var(--ac)';}else{await api('girl_tag_zuordnung?girl_id=eq.'+gid+'&tag_id=eq.'+tid,{method:'DELETE'});el.style.background='rgba(255,255,255,.02)';el.style.borderColor='var(--bdr)';el.style.color='var(--tx2)';}}catch(e){alert(e.message);}}
 async function addGirl(){
   const name=document.getElementById('newGirlName').value.trim();
-  const desc=document.getElementById('newGirlDesc').value.trim();
   const errEl=document.getElementById('girlErr');errEl.style.display='none';
   if(!name){errEl.textContent='Bitte Name eingeben.';errEl.style.display='block';return;}
-  try{await api('girls',{method:'POST',body:{studio_id:currentEditId,name:name,beschreibung:desc||null,is_active:true,is_approved:true,montag:false,dienstag:false,mittwoch:false,donnerstag:false,freitag:false,samstag:false,sonntag:false}});
-  document.getElementById('newGirlName').value='';document.getElementById('newGirlDesc').value='';document.getElementById('newGirlDescCount').textContent='0/150';loadGirls(currentEditId);}
+  var body={studio_id:currentEditId,name:name,is_active:true,is_approved:true,montag:false,dienstag:false,mittwoch:false,donnerstag:false,freitag:false,samstag:false,sonntag:false};
+  var v;v=document.getElementById('newGirlAge').value;if(v)body.alter_jahre=parseInt(v);
+  v=document.getElementById('newGirlNat').value.trim();if(v)body.nationalitaet=v;
+  v=document.getElementById('newGirlLang').value.trim();if(v)body.sprachen=v;
+  v=document.getElementById('newGirlHeight').value;if(v)body.groesse=parseInt(v);
+  v=document.getElementById('newGirlHair').value.trim();if(v)body.haarfarbe=v;
+  v=document.getElementById('newGirlCup').value.trim();if(v)body.koerbchengroesse=v;
+  v=document.getElementById('newGirlFigur').value;if(v)body.figur=v;
+  v=document.getElementById('newGirlMotto').value.trim();if(v)body.motto=v;
+  v=document.getElementById('newGirlDesc').value.trim();if(v)body.beschreibung=v;
+  v=document.getElementById('newGirlPreis').value.trim();if(v)body.preis_info=v;
+  v=document.getElementById('newGirlWA').value.trim();if(v)body.whatsapp=v;
+  body.slug=name.toLowerCase().replace(/[äÄ]/g,'ae').replace(/[öÖ]/g,'oe').replace(/[üÜ]/g,'ue').replace(/[^a-z0-9]/g,'-');
+  try{await api('girls',{method:'POST',body:body});
+  ['newGirlName','newGirlAge','newGirlNat','newGirlLang','newGirlHeight','newGirlHair','newGirlCup','newGirlMotto','newGirlDesc','newGirlPreis','newGirlWA'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('newGirlFigur').selectedIndex=0;loadGirls(currentEditId);}
   catch(e){errEl.textContent=e.message;errEl.style.display='block';}
 }
 async function saveGirl(id){
   var name=document.getElementById('gn_'+id).value.trim();
-  var desc=document.getElementById('gd_'+id).value.trim();
   if(!name){alert('Name darf nicht leer sein.');return;}
-  try{await api('girls?id=eq.'+id,{method:'PATCH',body:{name:name,beschreibung:desc||null}});loadGirls(currentEditId);}catch(e){alert(e.message);}
+  var body={name:name,beschreibung:document.getElementById('gd_'+id).value.trim()||null};
+  var v;v=document.getElementById('ga_'+id).value;body.alter_jahre=v?parseInt(v):null;
+  v=document.getElementById('gnat_'+id).value.trim();body.nationalitaet=v||null;
+  v=document.getElementById('gh_'+id).value;body.groesse=v?parseInt(v):null;
+  v=document.getElementById('ghr_'+id).value.trim();body.haarfarbe=v||null;
+  v=document.getElementById('gcup_'+id).value.trim();body.koerbchengroesse=v||null;
+  v=document.getElementById('gfig_'+id).value;body.figur=v||null;
+  v=document.getElementById('gsp_'+id).value.trim();body.sprachen=v||null;
+  v=document.getElementById('gpr_'+id).value.trim();body.preis_info=v||null;
+  v=document.getElementById('gmo_'+id).value.trim();body.motto=v||null;
+  try{await api('girls?id=eq.'+id,{method:'PATCH',body});loadGirls(currentEditId);}catch(e){alert(e.message);}
 }
+
 async function uploadGirlPhoto(girlId,file){
-  if(!file)return;
-  if(file.size>5*1024*1024){alert('Bild zu gross (max 5MB)');return;}
-  try{
-    var ext=file.name.split('.').pop().toLowerCase();
-    var path=currentEditId+'/'+girlId+'.'+ext;
-    var r=await fetch(SUPABASE_URL+'/storage/v1/object/girl-bilder/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type,'x-upsert':'true'},body:file});
-    if(!r.ok){var e=await r.json().catch(function(){return {};});throw new Error(e.message||r.statusText);}
-    await api('girls?id=eq.'+girlId,{method:'PATCH',body:{bild_path:path}});
-    loadGirls(currentEditId);
+  if(!file)return;if(file.size>5*1024*1024){alert('Bild zu gross (max 5MB)');return;}
+  try{var ext=file.name.split('.').pop().toLowerCase();var path=currentEditId+'/'+girlId+'.'+ext;
+  var r=await fetch(SUPABASE_URL+'/storage/v1/object/girl-bilder/'+path,{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+token,'Content-Type':file.type,'x-upsert':'true'},body:file});
+  if(!r.ok){var e=await r.json().catch(function(){return {};});throw new Error(e.message||r.statusText);}
+  await api('girls?id=eq.'+girlId,{method:'PATCH',body:{bild_path:path}});loadGirls(currentEditId);
   }catch(e){alert('Foto-Upload fehlgeschlagen: '+e.message);}
 }
 async function toggleGirlDay(girlId,day,el){
-  const isOn=el.classList.contains('on');
-  try{const body={};body[day]=!isOn;await api('girls?id=eq.'+girlId,{method:'PATCH',body});el.classList.toggle('on');}
-  catch(e){alert(e.message);}
+  const isOn=el.classList.contains('on');try{const body={};body[day]=!isOn;await api('girls?id=eq.'+girlId,{method:'PATCH',body});el.classList.toggle('on');}catch(e){alert(e.message);}
 }
 async function deleteGirl(id){
-  if(!confirm('Girl löschen?'))return;
-  try{await api('girls?id=eq.'+id,{method:'DELETE'});loadGirls(currentEditId);}catch(e){alert(e.message);}
+  if(!confirm('Girl löschen?'))return;try{await api('girls?id=eq.'+id,{method:'DELETE'});loadGirls(currentEditId);}catch(e){alert(e.message);}
 }
 
 // === SERVICES ===
